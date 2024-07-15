@@ -1,48 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-
-body {
-  margin: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  transition: background-color 0.3s, color 0.3s;
-}
-
-.light-mode {
-  background-color: #f9f9f9;
-  color: #333;
-}
-
-.dark-mode {
-  background-color: #333;
-  color: #f9f9f9;
-}
-
-h1 {
-  text-align: center;
-  margin-bottom: 1rem;
-  color: #333;
-}
-
-.dark-mode h1 {
-  color: #f9f9f9;
-}
-
-.form-container {
+.formContainer {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -50,7 +6,7 @@ h1 {
   background: #f5f5f5;
 }
 
-.dark-mode .form-container {
+.dark-mode .formContainer {
   background: #444;
 }
 
@@ -116,7 +72,7 @@ h1 {
   background-color: #003f7f;
 }
 
-.form .switch-link {
+.switchLink {
   display: block;
   text-align: center;
   margin-top: 1rem;
@@ -124,6 +80,6 @@ h1 {
   text-decoration: none;
 }
 
-.dark-mode .form .switch-link {
+.dark-mode .switchLink {
   color: #66b3ff;
 }

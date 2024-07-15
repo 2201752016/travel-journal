@@ -2,19 +2,19 @@ import { useEffect, useState } from 'react';
 import useGetData from '../api/useGetData';
 import { motion } from 'framer-motion';
 
-export default function Home() {
+export default function Promo() {
   const { getData } = useGetData();
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await getData('banners');
+      const result = await getData('promos');
       if (result && Array.isArray(result)) {
         setData(result);
       } else {
         setData([]);
-        setError('Failed to fetch banners');
+        setError('Failed to fetch promotions');
       }
     };
     if (typeof window !== 'undefined') {
@@ -24,7 +24,7 @@ export default function Home() {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-      <h1>Home Page</h1>
+      <h1>Promo Page</h1>
       {error && <p>{error}</p>}
       <ul>
         {data.length > 0 ? (
@@ -32,7 +32,7 @@ export default function Home() {
             <li key={item.id}>{item.name}</li>
           ))
         ) : (
-          <li>No data available</li>
+          <li>No promotions available</li>
         )}
       </ul>
     </motion.div>
