@@ -1,23 +1,55 @@
-import { useSelector } from 'react-redux';
-import { motion } from 'framer-motion';
+"use client"
+import useGetData from '../api/useGetData';
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import Button from '../components/ui/Button';
 
-const Dashboard = () => {
-  const user = useSelector((state) => state.auth.user);
 
-  return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-      <h1>Dashboard</h1>
-      {user ? (
+export default function userList(){
+    const {getData} = useGetData();
+    const [user, setUser] = useState([]);
+    const route = useRouter();
+
+    useEffect(()=>{
+        getData(`all-user`).then((res)=>setUser(res.data.data));
+    }, [])
+
+    return(
         <div>
-          <h2>Welcome, {user.name}!</h2>
-          <p>Email: {user.email}</p>
-          {/* Add more user-specific content here */}
+            <div className="container mx-5 mt-3">
+                <div className="text-center">
+                <table className="table table-bordered" style={{width:"80%"}}>
+                    <thead>
+                        <tr>
+                            <th scope="col">Image</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Role</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Phone</th>
+                            <th scope="col">Edit</th>
+        ,.              </tr>
+                    </thead>
+                    <tbody>
+                        {user.length > 0 && (
+                            user.map((userData)=>(
+                            <tr key={userData.id}>
+                                <td><img src={userData.profilePictureUrl} alt={userData.name} style={{height:"50px", width:"50px", borderRadius:"50%"}}/></td>
+                                <td>{userData.name}</td>
+                                <td>{userData.role}</td>
+                                <td>{userData.email}</td>
+                                <td>{userData.phoneNumber}</td>
+                                <td>
+                                    <div className="d-flex">
+                                        <Button className="btn btn-success" onClick={()=>route.push(`/form/user/${userData.id}`)}>Update</Button>
+                                    </div>
+                                </td>
+                            </tr>
+                            ))
+                        )}
+                    </tbody>
+                </table>
+                </div>
+            </div>
         </div>
-      ) : (
-        <p>You need to log in to view this page.</p>
-      )}
-    </motion.div>
-  );
-};
-
-export default Dashboard;
+    )
+}

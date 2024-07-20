@@ -1,0 +1,32 @@
+.dashboardContainer {
+  display: flex;
+}
+
+.sidebar {
+  width: 200px;
+  background-color: #f8f9fa;
+  padding: 20px;
+}
+
+.navItem {
+  display: block;
+  padding: 10px 0;
+  text-decoration: none;
+  color: #333;
+}
+
+.createSection {
+  margin-top: 20px;
+}
+
+.createItem {
+  display: block;
+  padding: 10px 0;
+  text-decoration: none;
+  color: #333;
+}
+
+.content {
+  flex: 1;
+  padding: 20px;
+}

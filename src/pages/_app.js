@@ -1,16 +1,27 @@
 import { Provider } from 'react-redux';
-import store from '../redux/store';
+import { store } from '../redux/store';
 import '../styles/globals.css';
+import DashboardLayout from '../components/Dashboard/DashboardLayout';
 import Layout from '../components/Layout';
 import ThemeProvider from '../components/ThemeProvider';
+import { useRouter } from 'next/router';
 
 function MyApp({ Component, pageProps }) {
+  const router = useRouter();
+  const isDashboard = router.pathname.startsWith('/dashboard');
+
   return (
     <Provider store={store}>
       <ThemeProvider>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        {isDashboard ? (
+          <DashboardLayout>
+            <Component {...pageProps} />
+          </DashboardLayout>
+        ) : (
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        )}
       </ThemeProvider>
     </Provider>
   );
