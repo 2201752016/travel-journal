@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import styles from '../../../styles/CreateForm.module.css'; // Adjusted import path
+import styles from '../../../styles/CreateForm.module.css';
 
 const CreatePromo = () => {
   const [title, setTitle] = useState('');

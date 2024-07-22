@@ -3,15 +3,15 @@ import useAuth from '../api/useAuth';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import styles from '../styles/Form.module.css';
-import Input from '@/components/ui/Input';
-import Button from '@/components/ui/Button';
-import Dropdown from '@/components/ui/Dropdown';
+import Input from '../components/ui/Input';
+import Button from '../components/ui/Button';
+import Dropdown from '../components/ui/Dropdown';
 
 const Register = () => {
   const [image, setImage] = useState('');
   const { Auth, loading } = useAuth();
   const [prompt, setPrompt] = useState([]);
-  const [role, setRole] = useState('user'); // Default role is 'user'
+  const [role, setRole] = useState('user');
 
   const handleChange = async (e) => {
     const file = e.target.files[0];
