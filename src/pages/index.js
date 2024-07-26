@@ -3,8 +3,7 @@ import { motion } from 'framer-motion';
 import useGetData from '../api/useGetData';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-import Link from 'next/link';
-import styles from '../styles/Home.module.css';
+import styles from '../styles/Home.module.css'; // Ensure this path is correct
 
 export default function Home() {
   const [activities, setActivities] = useState([]);
@@ -21,7 +20,6 @@ export default function Home() {
 
   return (
     <div className={styles.container}>
-      {/* utama */}
       <section className={styles.heroSection}>
         <div className={styles.heroContent}>
           <h1>Adventure to Explore Through the Beautiful World</h1>
@@ -42,7 +40,6 @@ export default function Home() {
         </motion.div>
       </section>
 
-      {/* Seksi Promo */}
       <section className={styles.promoSection}>
         <h2>Special Promo For You!</h2>
         <p>Exclusive Offer Just for You! Don't Miss Out!</p>
@@ -68,7 +65,6 @@ export default function Home() {
         <button onClick={() => router.push('/promo')}>See All Promo</button>
       </section>
 
-      {/* Seksi Banner*/}
       <section className={styles.findLoveSection}>
         <h2>Find What You Love</h2>
         <p>Let's Discover Your Passion</p>
@@ -86,7 +82,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* seksi Activities */}
       <section className={styles.activitiesSection}>
         <h2>Explore All Activities</h2>
         <p>Discover a Plethora of Activities to Explore</p>
@@ -109,11 +104,10 @@ export default function Home() {
         <button onClick={() => router.push('/activity')}>See All Activities</button>
       </section>
 
-      {/* Footer yah footer liat tulisannya di bawah */}
       <footer className={styles.footer}>
         <div className={styles.footerContent}>
           <div>
-            <h3>TRavel Journal</h3>
+            <h3>Travel Journal</h3>
             <p>Aplikasi perjalanan yang memudahkan Anda.</p>
           </div>
           <div>

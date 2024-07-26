@@ -1,13 +1,16 @@
 .container {
     font-family: Arial, sans-serif;
+    background-color: #e0f7fa;
+    color: #006064;
+    margin: 50px;
   }
   
   .heroSection {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    padding: 2rem;
-    background: #f9f9f9;
+    align-items: center;
+    padding: 20px;
+    background-color: #b2ebf2;
   }
   
   .heroContent {
@@ -15,60 +18,89 @@
   }
   
   .heroContent h1 {
-    font-size: 2.5rem;
-    color: #ff6600;
+    font-size: 2.5em;
+    color: #004d40;
   }
   
   .heroContent p {
-    font-size: 1.2rem;
-    margin: 1rem 0;
+    font-size: 1.2em;
   }
   
   .heroContent button {
-    background: #ff6600;
+    padding: 10px 20px;
+    background-color: #00796b;
     color: white;
-    padding: 0.75rem 1.5rem;
     border: none;
     cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .heroContent button:hover {
+    background-color: #004d40;
   }
   
   .heroImage img {
+    max-width: 100%;
     border-radius: 10px;
   }
   
-  .promoSection, .findLoveSection, .activitiesSection {
-    padding: 2rem;
-    background: #fff3e0;
+  .promoSection,
+  .findLoveSection,
+  .activitiesSection {
+    padding: 40px 20px;
   }
   
-  .promoSection h2, .findLoveSection h2, .activitiesSection h2 {
-    color: #ff6600;
+  .promoSection h2,
+  .findLoveSection h2,
+  .activitiesSection h2 {
+    font-size: 2em;
+    color: #004d40; 
   }
   
-  .promoGrid, .loveGrid, .activitiesGrid {
+  .promoGrid,
+  .loveGrid,
+  .activitiesGrid {
     display: flex;
-    justify-content: space-between;
-    margin: 2rem 0;
+    gap: 20px;
+    flex-wrap: wrap;
   }
   
-  .promoCard, .loveCard, .activityCard {
-    flex: 1;
-    margin: 0 1rem;
-  }
-  
-  .promoCard img, .loveCard img, .activityCard img {
-    width: 100%;
+  .promoCard,
+  .loveCard,
+  .activityCard {
+    background-color: white;
+    padding: 10px;
     border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+  }
+  
+  .promoCard:hover,
+  .loveCard:hover,
+  .activityCard:hover {
+    transform: scale(1.05);
+  }
+  
+  .promoCard h6,
+  .loveCard h6,
+  .activityCard h6 {
+    font-size: 1.2em;
+    color: #00796b; 
   }
   
   .footer {
-    background: #ff6600;
+    background-color: #004d40; 
     color: white;
-    padding: 2rem;
-  }
-  
-  .footerContent {
+    padding: 20px;
     display: flex;
     justify-content: space-between;
+  }
+  
+  .footer div h3 {
+    margin: 0 0 10px 0;
+  }
+  
+  .footer div p {
+    margin: 0;
   }
   
