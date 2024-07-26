@@ -21,6 +21,10 @@ module.exports = {
         protocol: 'https',
         hostname: 't4.ftcdn.net',
       },
+      {
+        protocol: 'https',
+        hostname: 'i.guim.co.uk',
+      },
     ],
   },
   async redirects() {

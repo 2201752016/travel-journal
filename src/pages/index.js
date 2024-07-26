@@ -1,16 +1,16 @@
-import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
-import useGetData from '../api/useGetData';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import useGetData from '@/api/useGetData';
+import styles from '@/styles/home.module.css';
 import Image from 'next/image';
-import styles from '../styles/Home.module.css'; // Ensure this path is correct
+import { motion } from 'framer-motion';
 
 export default function Home() {
+  const router = useRouter();
+  const { getData } = useGetData();
   const [activities, setActivities] = useState([]);
   const [promos, setPromos] = useState([]);
   const [banners, setBanners] = useState([]);
-  const { getData } = useGetData();
-  const router = useRouter();
 
   useEffect(() => {
     getData('activities').then((res) => setActivities(res.data.data));
@@ -18,90 +18,127 @@ export default function Home() {
     getData('banners').then((res) => setBanners(res.data.data));
   }, []);
 
+  const handleBannerClick = (bannerId) => {
+    router.push(`/detail/banner/${bannerId}`);
+  };
+
+  const handlePromoClick = () => {
+    router.push('/promo');
+  };
+
+  const handleActivityClick = () => {
+    router.push('/activity');
+  };
+
   return (
     <div className={styles.container}>
       <section className={styles.heroSection}>
-        <div className={styles.heroContent}>
+        <div className={styles.heroText}>
           <h1>Adventure to Explore Through the Beautiful World</h1>
           <p>
-            Embark on an unforgettable adventure through breathtaking landscapes and captivating encounters in the beautiful world around you.
+            Embark on an unforgettable adventure through breathtaking landscapes
+            and captivating encounters in the beautiful world around you.
           </p>
-          <button onClick={() => router.push('/activity')}>Explore Now</button>
+          <button onClick={handleActivityClick} className={styles.exploreButton}>
+            Explore Now
+          </button>
         </div>
-        <motion.div className={styles.heroImage} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-          {activities.length > 0 && (
+        {banners.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className={styles.heroImage}
+            onClick={() => handleBannerClick(banners[0].id)}
+          >
             <Image
-              src={activities[0].imageUrls[0] || activities[0].imageUrls[1]}
-              alt={activities[0].title}
-              width={500}
-              height={500}
+              src={banners[0].imageUrl}
+              alt={banners[0].name}
+              layout="fill"
+              objectFit="cover"
             />
-          )}
-        </motion.div>
+          </motion.div>
+        )}
       </section>
 
       <section className={styles.promoSection}>
         <h2>Special Promo For You!</h2>
         <p>Exclusive Offer Just for You! Don't Miss Out!</p>
         <div className={styles.promoGrid}>
-          {promos.length > 0 ? (
-            promos.slice(0, 4).map((promo) => (
-              <motion.div key={promo.id} className={styles.promoCard} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                {promo.imageUrls && promo.imageUrls.length > 0 && (
-                  <Image
-                    src={promo.imageUrls[0]}
-                    alt={promo.title}
-                    width={300}
-                    height={200}
-                  />
-                )}
-                <h6>{promo.title}</h6>
-              </motion.div>
-            ))
-          ) : (
-            <p>No promotions available</p>
-          )}
+          {promos.slice(0, 4).map((promo) => (
+            <motion.div
+              key={promo.id}
+              className={styles.promoCard}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              onClick={() => router.push(`/detail/promo/${promo.id}`)}
+            >
+              {promo.imageUrls && promo.imageUrls.length > 0 && (
+                <Image
+                  src={promo.imageUrls[0]}
+                  alt={promo.title}
+                  width={300}
+                  height={200}
+                />
+              )}
+              <h6>{promo.title}</h6>
+            </motion.div>
+          ))}
         </div>
-        <button onClick={() => router.push('/promo')}>See All Promo</button>
+        <button onClick={handlePromoClick} className={styles.seeAllButton}>
+          See All Promo
+        </button>
       </section>
 
-      <section className={styles.findLoveSection}>
+      <section className={styles.bannerSection}>
         <h2>Find What You Love</h2>
         <p>Let's Discover Your Passion</p>
-        <div className={styles.loveGrid}>
-          {banners.length > 0 ? (
-            banners.slice(0, 4).map((banner) => (
-              <motion.div key={banner.id} className={styles.loveCard} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                <Image src={banner.imageUrl} alt={banner.title} width={300} height={200} />
-                <h6>{banner.title}</h6>
-              </motion.div>
-            ))
-          ) : (
-            <p>No banners available</p>
-          )}
+        <div className={styles.bannerGrid}>
+          {banners.map((banner) => (
+            <motion.div
+              key={banner.id}
+              className={styles.bannerCard}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              onClick={() => handleBannerClick(banner.id)}
+            >
+              <Image
+                src={banner.imageUrl}
+                alt={banner.name}
+                width={300}
+                height={200}
+              />
+              <h6>{banner.name}</h6>
+            </motion.div>
+          ))}
         </div>
       </section>
 
-      <section className={styles.activitiesSection}>
+      <section className={styles.activitySection}>
         <h2>Explore All Activities</h2>
         <p>Discover a Plethora of Activities to Explore</p>
-        <div className={styles.activitiesGrid}>
-          {activities.length > 0 ? (
-            activities.slice(0, 3).map((activity) => (
-              <motion.div key={activity.id} className={styles.activityCard} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                <Image src={activity.imageUrls[0] || activity.imageUrls[1]} alt={activity.title} width={300} height={200} />
-                <div>
-                  <h6>{activity.title}</h6>
-                  <p>{activity.location}</p>
-                  <p>{activity.price}</p>
-                </div>
-              </motion.div>
-            ))
-          ) : (
-            <p>No activities available</p>
-          )}
+        <div className={styles.activityGrid}>
+          {activities.map((activity) => (
+            <motion.div
+              key={activity.id}
+              className={styles.activityCard}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              onClick={() => router.push(`/detail/activity/${activity.id}`)}
+            >
+              <Image
+                src={activity.imageUrl}
+                alt={activity.name}
+                width={300}
+                height={200}
+              />
+              <h6>{activity.name}</h6>
+              <p>{activity.price}</p>
+            </motion.div>
+          ))}
         </div>
-        <button onClick={() => router.push('/activity')}>See All Activities</button>
+        <button onClick={handleActivityClick} className={styles.seeAllButton}>
+          See All Activities
+        </button>
       </section>
 
       <footer className={styles.footer}>

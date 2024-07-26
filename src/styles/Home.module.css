@@ -1,106 +1,115 @@
 .container {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
     font-family: Arial, sans-serif;
     background-color: #e0f7fa;
-    color: #006064;
-    margin: 50px;
   }
   
   .heroSection {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
+    padding: 50px;
     background-color: #b2ebf2;
   }
   
-  .heroContent {
-    max-width: 50%;
+  .heroText {
+    flex: 1;
+    padding-right: 20px;
   }
   
-  .heroContent h1 {
-    font-size: 2.5em;
+  .heroText h1 {
+    font-size: 3rem;
+    color: #006064;
+  }
+  
+  .heroText p {
+    font-size: 1.2rem;
     color: #004d40;
   }
   
-  .heroContent p {
-    font-size: 1.2em;
-  }
-  
-  .heroContent button {
+  .exploreButton {
+    background-color: #004d40;
+    color: #ffffff;
     padding: 10px 20px;
-    background-color: #00796b;
-    color: white;
     border: none;
     cursor: pointer;
-    transition: background-color 0.3s;
+    margin-top: 20px;
   }
   
-  .heroContent button:hover {
-    background-color: #004d40;
+  .heroImage {
+    flex: 1;
+    position: relative;
+    height: 300px;
+    cursor: pointer;
   }
   
-  .heroImage img {
-    max-width: 100%;
-    border-radius: 10px;
+  .promoSection, .bannerSection, .activitySection {
+    padding: 50px;
   }
   
-  .promoSection,
-  .findLoveSection,
-  .activitiesSection {
-    padding: 40px 20px;
+  .promoSection h2, .bannerSection h2, .activitySection h2 {
+    font-size: 2rem;
+    color: #006064;
   }
   
-  .promoSection h2,
-  .findLoveSection h2,
-  .activitiesSection h2 {
-    font-size: 2em;
-    color: #004d40; 
+  .promoSection p, .bannerSection p, .activitySection p {
+    font-size: 1.2rem;
+    color: #004d40;
   }
   
-  .promoGrid,
-  .loveGrid,
-  .activitiesGrid {
+  .promoGrid, .bannerGrid, .activityGrid {
     display: flex;
     gap: 20px;
     flex-wrap: wrap;
   }
   
-  .promoCard,
-  .loveCard,
-  .activityCard {
-    background-color: white;
+  .promoCard, .bannerCard, .activityCard {
+    background-color: #ffffff;
+    border: 1px solid #004d40;
     padding: 10px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s;
+    cursor: pointer;
   }
   
-  .promoCard:hover,
-  .loveCard:hover,
-  .activityCard:hover {
-    transform: scale(1.05);
+  .promoCard img, .bannerCard img, .activityCard img {
+    width: 100%;
+    height: auto;
   }
   
-  .promoCard h6,
-  .loveCard h6,
-  .activityCard h6 {
-    font-size: 1.2em;
-    color: #00796b; 
+  .seeAllButton {
+    background-color: #004d40;
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
   }
   
   .footer {
-    background-color: #004d40; 
-    color: white;
+    background-color: #004d40;
+    color: #ffffff;
     padding: 20px;
     display: flex;
     justify-content: space-between;
   }
   
-  .footer div h3 {
-    margin: 0 0 10px 0;
+  .footerContent {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
   }
   
-  .footer div p {
+  .footerContent div {
+    flex: 1;
+    padding: 0 20px;
+  }
+  
+  .footerContent h3 {
+    margin-bottom: 10px;
+  }
+  
+  .footerContent p {
     margin: 0;
   }
   
