@@ -16,7 +16,7 @@ export default function useAuth() {
       });
       localStorage.setItem('token', resp.data.token);
       localStorage.setItem('email', resp.data.data.email);
-      router.push('/dashboard');
+      router.push('/dashboarded');
       setLoading(false);
     } catch (error) {
       alert('Gagal melakukan autentikasi. Silakan coba lagi.');

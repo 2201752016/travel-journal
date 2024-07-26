@@ -1,43 +1,56 @@
-import { useEffect, useState } from 'react';
-import useGetData from '../api/useGetData';
-import styles from '../styles/Category.module.css';
+"use client";
+import Layout from "@components/Layout";
+import useDelete from "@useApi/useDelete";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import useGetData from "@useApi/useGetData";
+import styles from "@/styles/Card.module.css";
 
-const Category = () => {
+export default function Category() {
+  const [categories, setCategory] = useState([]);
+  const { deleteData } = useDelete();
   const { getData } = useGetData();
-  const [categorys, setCategorys] = useState([]);
+  const route = useRouter();
 
   useEffect(() => {
-    const fetchData = async () => {
-      const result = await getData('categorys');
-      if (result && Array.isArray(result.data)) {
-        setCategorys(result.data);
+    getData("categories").then((res) => setCategory(res.data.data));
+  }, []);
+
+  const handleDelete = async (id) => {
+    try {
+      const resp = await deleteData(`delete-category/${id}`);
+      if (resp.status === 200) {
+        setCategory(categories.filter((catego) => catego.id !== id));
       }
-    };
-    fetchData();
-  }, [getData]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
-    <div className={styles.categoryContainer}>
-      <h1 className={styles.title}>category Data</h1>
-      <button className={styles.createButton}>Create category</button>
-      <div className={styles.cardGrid}>
-        {categorys.map((category) => (
-          <div className={styles.card} key={category.id}>
-            <img src={category.imageUrl || '/default-category.png'} alt={category.title} className={styles.cardImage} />
-            <div className={styles.cardContent}>
-              <h2>{category.title}</h2>
-              <p>Created At: {category.createdAt}</p>
-              <p>Last Update: {category.updatedAt}</p>
+    <Layout>
+      <div className={styles.cardContainer}>
+        <button className={styles.addButton} onClick={() => route.push("/dashboarded/create-category")}>
+          Add
+        </button>
+        {categories.length > 0 &&
+          categories.map((catego) => (
+            <div key={catego.id} className={styles.card}>
+              <div className={styles.cardHeader}>
+                <img src={catego.imageUrl} alt={catego.name} />
+              </div>
+              <div className={styles.cardBody}>
+                <h2 className={styles.cardTitle}>{catego.name}</h2>
+                <p className={styles.cardDates}>Created At: {catego.createdAt}</p>
+                <p>Last Update: {catego.updatedAt}</p>
+              </div>
+              <div className={styles.cardActions}>
+                <button onClick={() => route.push(`/dashboarded/category/${catego.id}`)}>Update</button>
+                <button onClick={() => handleDelete(catego.id)}>Delete</button>
+              </div>
             </div>
-            <div className={styles.cardActions}>
-              <button className={styles.editButton}>Edit</button>
-              <button className={styles.deleteButton}>Delete</button>
-            </div>
-          </div>
-        ))}
+          ))}
       </div>
-    </div>
+    </Layout>
   );
-};
-
-export default Category;
+}

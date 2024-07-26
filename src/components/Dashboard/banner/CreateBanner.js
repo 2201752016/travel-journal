@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
-import styles from '../../styles/CreateForm.module.css';
+import styles from '../../../styles/CreateForm.module.css';
 import { useRouter } from 'next/router';
 
 const CreateBanner = () => {
@@ -21,7 +21,7 @@ const CreateBanner = () => {
           apiKey: '24405e01-fbc1-45a5-9f5a-be13afcd757c',
         },
       });
-      router.push('/dashboard/banner');
+      router.push('/dashboarded/banner');
     } catch (error) {
       console.error('Error creating banner:', error);
     }

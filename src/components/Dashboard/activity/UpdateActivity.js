@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import styles from '../../../styles/CreateForm.module.css';
 import { useRouter } from 'next/router';
+import styles from '../../../styles/CreateForm.module.css';
 
-const CreateActivity = () => {
+const UpdateActivity = ({ activityId }) => {
   const [title, setTitle] = useState('');
   const [category, setCategory] = useState('');
   const [description, setDescription] = useState('');
@@ -22,19 +22,38 @@ const CreateActivity = () => {
 
   useEffect(() => {
     const fetchCategories = async () => {
-      try {
-        const result = await axios.get('https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/categories', {
-          headers: {
-            apiKey: '24405e01-fbc1-45a5-9f5a-be13afcd757c',
-          },
-        });
-        setCategories(result.data);
-      } catch (error) {
-        console.error('Error fetching categories:', error);
-      }
+      const result = await axios.get('https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/categories', {
+        headers: {
+          apiKey: '24405e01-fbc1-45a5-9f5a-be13afcd757c',
+        },
+      });
+      setCategories(result.data);
     };
+
+    const fetchActivity = async () => {
+      const result = await axios.get(`https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/activity/${activityId}`, {
+        headers: {
+          apiKey: '24405e01-fbc1-45a5-9f5a-be13afcd757c',
+        },
+      });
+      const activity = result.data;
+      setTitle(activity.title);
+      setCategory(activity.category);
+      setDescription(activity.description);
+      setPrice(activity.price);
+      setPriceDiscount(activity.priceDiscount);
+      setRating(activity.rating);
+      setTotalReview(activity.totalReview);
+      setFacilities(activity.facilities);
+      setAddress(activity.address);
+      setCity(activity.city);
+      setProvince(activity.province);
+      setLocationMaps(activity.locationMaps);
+    };
+
     fetchCategories();
-  }, []);
+    fetchActivity();
+  }, [activityId]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -54,7 +73,7 @@ const CreateActivity = () => {
     imageFiles.forEach((file) => formData.append('images', file));
 
     try {
-      await axios.post('https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/create-activity', formData, {
+      await axios.put(`https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/update-activity/${activityId}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           apiKey: '24405e01-fbc1-45a5-9f5a-be13afcd757c',
@@ -62,13 +81,13 @@ const CreateActivity = () => {
       });
       router.push('/dashboarded/activity');
     } catch (error) {
-      console.error('Error creating activity:', error);
+      console.error('Error updating activity:', error);
     }
   };
 
   return (
     <div className={styles.formContainer}>
-      <h1>Create Activity</h1>
+      <h1>Update Activity</h1>
       <form onSubmit={handleSubmit}>
         <label htmlFor="title">Title</label>
         <input type="text" id="title" value={title} onChange={(e) => setTitle(e.target.value)} required />
@@ -76,7 +95,7 @@ const CreateActivity = () => {
         <label htmlFor="category">Category</label>
         <select id="category" value={category} onChange={(e) => setCategory(e.target.value)} required>
           <option value="">Select</option>
-          {Array.isArray(categories) && categories.map((cat) => (
+          {categories.map((cat) => (
             <option key={cat.id} value={cat.id}>{cat.name}</option>
           ))}
         </select>
@@ -112,13 +131,13 @@ const CreateActivity = () => {
         <input type="text" id="locationMaps" value={locationMaps} onChange={(e) => setLocationMaps(e.target.value)} required />
 
         <label htmlFor="image">Image Files</label>
-        <input type="file" id="image" multiple onChange={(e) => setImageFiles(Array.from(e.target.files))} required />
+        <input type="file" id="image" multiple onChange={(e) => setImageFiles(Array.from(e.target.files))} />
 
-        <button type="submit">Create Activity</button>
+        <button type="submit">Update Activity</button>
         <button type="button" onClick={() => router.back()}>Cancel</button>
       </form>
     </div>
   );
 };
 
-export default CreateActivity;
+export default UpdateActivity;

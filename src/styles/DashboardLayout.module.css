@@ -3,16 +3,25 @@
 }
 
 .sidebar {
-  width: 200px;
+  margin-top: 50px;
+  width: 180px;
   background-color: #f8f9fa;
   padding: 20px;
+  border-right: 1px solid #dee2e6;
 }
 
 .navItem {
+  margin-top: 10px;
   display: block;
-  padding: 10px 0;
+  padding: 10px;
   text-decoration: none;
   color: #333;
+  font-weight: 500;
+  border-radius: 5px;
+}
+
+.navItem:hover {
+  background-color: #788592;
 }
 
 .createSection {

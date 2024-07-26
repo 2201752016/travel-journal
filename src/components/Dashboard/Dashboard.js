@@ -30,7 +30,7 @@ const Dashboard = () => {
           <div className={styles.card} key={user.id}>
             <div className={styles.cardHeader}>
               <img src={user.profilePictureUrl || '/default-avatar.png'} alt={user.name} />
-              <button onClick={() => {/* JANGAN LUPA ini ngehadle update */}}>Update</button>
+              <button onClick={() => {/* JANGAN LUPA ini ngehadle update harusnya.....*/}}>Update</button>
             </div>
             <div className={styles.cardBody}>
               <h2>{user.name}</h2>

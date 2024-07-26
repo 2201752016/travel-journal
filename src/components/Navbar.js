@@ -3,15 +3,15 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useSelector, useDispatch } from 'react-redux';
-import useAuth from '../api/useAuth';
 import styles from '../styles/Navbar.module.css';
-import { clearUser, setUser } from '../redux/slice/userLoggedSlice';
+import { logout, setUser } from '../redux/slices/authSlice';
+import useAuth from '../api/useAuth';
 
 const Navbar = () => {
-  const { Auth, userLog } = useAuth();
+  const { userLog } = useAuth();
   const router = useRouter();
   const [navStyle, setNavStyle] = useState('');
-  const user = useSelector((state) => state?.userLogged?.user);
+  const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
   const { pathname } = router;
 
@@ -25,9 +25,10 @@ const Navbar = () => {
     };
   }, []);
 
-  const logout = async () => {
-    await Auth('logout');
-    dispatch(clearUser());
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    dispatch(logout());
     router.push('/');
   };
 
@@ -43,13 +44,22 @@ const Navbar = () => {
 
   const getUserLogged = () => {
     if (localStorage.getItem('token')) {
-      userLog('user', (res) => dispatch(setUser(res)));
+      userLog('user', (res) => {
+        if (res.code === "200" && res.status === "OK") {
+          localStorage.setItem('user', JSON.stringify(res.data));
+          dispatch(setUser(res.data));
+        }
+      });
     }
   };
 
+  useEffect(() => {
+    console.log('Current user from Redux:', user);
+  }, [user]);
+
   return (
     <nav className={`${styles.navbar} ${navStyle}`}>
-      <div className={`${styles.container}`}>
+      <div className={styles.container}>
         <div className={styles.logoContainer}>
           <Link href="/" passHref>
             <div className={styles.logo}>
@@ -59,23 +69,23 @@ const Navbar = () => {
           </Link>
         </div>
         <div className={styles.navLinks}>
-          <Link href="/" className={`nav-link orange-dark ${pathname === "/" && "on"}`} aria-current="page">
+          <Link href="/" className={`nav-link orange-dark ${pathname === '/' && 'on'}`} aria-current="page">
             Home
           </Link>
-          <Link href="/activity" className={`nav-link orange-dark ${pathname === "/activity" && "on"}`}>
+          <Link href="/activity" className={`nav-link orange-dark ${pathname === '/activity' && 'on'}`}>
             Activity
           </Link>
-          <Link href="/promo" className={`nav-link orange-dark ${pathname === "/promo" && "on"}`} aria-disabled="true">
+          <Link href="/promo" className={`nav-link orange-dark ${pathname === '/promo' && 'on'}`} aria-disabled="true">
             Promo
           </Link>
-          {user?.role === "admin" && (
-            <Link href="/dashboard/user" className={`nav-link orange-dark ${pathname.startsWith("/dashboard") && "on"}`}>
+          {user?.role === 'admin' && (
+            <Link href="/dashboard" className={`nav-link orange-dark ${pathname.startsWith('/dashboard') && 'on'}`}>
               Dashboard
             </Link>
           )}
         </div>
         <div className={styles.authLinks}>
-          {user?.name ? (
+          {user ? (
             <div className={styles.profileDropdown}>
               <div className={styles.profileLink}>
                 <img src={user.profilePictureUrl || '/default-avatar.png'} alt={user.name} className={styles.profilePicture} />
@@ -83,12 +93,12 @@ const Navbar = () => {
               </div>
               <ul className={styles.dropdownMenu}>
                 <li>
-                  <Link href="/profile" passHref>
+                  <Link href="/Profile" passHref>
                     <div className={styles.dropdownItem}>Profile</div>
                   </Link>
                 </li>
                 <li>
-                  <button onClick={logout} className={styles.dropdownItem}>
+                  <button onClick={handleLogout} className={styles.dropdownItem}>
                     Logout
                   </button>
                 </li>

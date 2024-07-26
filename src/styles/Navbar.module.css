@@ -82,6 +82,7 @@
   align-items: center;
   text-decoration: none;
   color: #666666;
+  padding: 10px;
 }
 
 .profilePicture {
@@ -100,14 +101,16 @@
   position: absolute;
   right: 0;
   top: 40px;
-  background-color: #ffbb70;
+  background-color: #33adff;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   overflow: hidden;
   z-index: 1000;
+  padding: 10px 0;
 }
 
-.profileDropdown:hover .dropdownMenu {
+.profileDropdown:hover .dropdownMenu,
+.dropdownMenu:hover {
   display: block;
 }
 
@@ -119,7 +122,7 @@
 }
 
 .dropdownItem:hover {
-  background-color: #ff9933;
+  background-color: #80ccff;
   color: white;
 }
 

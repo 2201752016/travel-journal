@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import styles from '../../../styles/CreateForm.module.css';
 
-const CreatePromo = () => {
+const UpdatePromo = ({ promoId }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [promoCode, setPromoCode] = useState('');
@@ -12,6 +12,25 @@ const CreatePromo = () => {
   const [discountPrice, setDiscountPrice] = useState('');
   const [imageFile, setImageFile] = useState(null);
   const router = useRouter();
+
+  useEffect(() => {
+    const fetchPromo = async () => {
+      const result = await axios.get(`https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/promo/${promoId}`, {
+        headers: {
+          apiKey: '24405e01-fbc1-45a5-9f5a-be13afcd757c',
+        },
+      });
+      const promo = result.data;
+      setTitle(promo.title);
+      setDescription(promo.description);
+      setPromoCode(promo.promoCode);
+      setMinClaimPrice(promo.minClaimPrice);
+      setTerms(promo.terms);
+      setDiscountPrice(promo.discountPrice);
+    };
+
+    fetchPromo();
+  }, [promoId]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,10 +41,12 @@ const CreatePromo = () => {
     formData.append('minClaimPrice', minClaimPrice);
     formData.append('terms', terms);
     formData.append('discountPrice', discountPrice);
-    formData.append('image', imageFile);
+    if (imageFile) {
+      formData.append('image', imageFile);
+    }
 
     try {
-      await axios.post('https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/create-promo', formData, {
+      await axios.put(`https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/update-promo/${promoId}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           apiKey: '24405e01-fbc1-45a5-9f5a-be13afcd757c',
@@ -33,13 +54,13 @@ const CreatePromo = () => {
       });
       router.push('/dashboarded/promo');
     } catch (error) {
-      console.error('Error creating promo:', error);
+      console.error('Error updating promo:', error);
     }
   };
 
   return (
     <div className={styles.formContainer}>
-      <h1>Create Promo</h1>
+      <h1>Update Promo</h1>
       <form onSubmit={handleSubmit}>
         <label htmlFor="title">Title</label>
         <input type="text" id="title" value={title} onChange={(e) => setTitle(e.target.value)} required />
@@ -60,13 +81,13 @@ const CreatePromo = () => {
         <input type="number" id="discountPrice" value={discountPrice} onChange={(e) => setDiscountPrice(e.target.value)} required />
 
         <label htmlFor="image">Image File</label>
-        <input type="file" id="image" onChange={(e) => setImageFile(e.target.files[0])} required />
+        <input type="file" id="image" onChange={(e) => setImageFile(e.target.files[0])} />
 
-        <button type="submit">Create Promo</button>
+        <button type="submit">Update Promo</button>
         <button type="button" onClick={() => router.back()}>Cancel</button>
       </form>
     </div>
   );
 };
 
-export default CreatePromo;
+export default UpdatePromo;

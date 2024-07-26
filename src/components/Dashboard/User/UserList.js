@@ -1,65 +1,55 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import styles from '../../../styles/UserList.module.css';
-import { useRouter } from 'next/router';
+"use client";
+import useGetData from "src/api/useGetData";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import Button from "@components/ui/Button";
 
-const UserList = () => {
-  const [users, setUsers] = useState([]);
-  const [isMounted, setIsMounted] = useState(false);
-  const router = useRouter();
 
-  useEffect(() => {
-    setIsMounted(true);
-    if (isMounted) {
-      axios.get('https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/users', {
-        headers: {
-          apiKey: '24405e01-fbc1-45a5-9f5a-be13afcd757c',
-        },
-      })
-      .then(response => {
-        setUsers(response.data.data);
-      })
-      .catch(error => {
-        console.error('Error fetching users:', error);
-      });
-    }
-  }, [isMounted]);
+export default function userList(){
+    const {getData} = useGetData();
+    const [user, setUser] = useState([]);
+    const route = useRouter();
 
-  if (!isMounted) {
-    return null;
-  }
+    useEffect(()=>{
+        getData(`all-user`).then((res)=>setUser(res.data.data));
+    }, [])
 
-  return (
-    <div className={styles.container}>
-      <h1>User List</h1>
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            <th>Image</th>
-            <th>Name</th>
-            <th>Role</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Edit</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map(user => (
-            <tr key={user.id}>
-              <td><img src={user.profilePictureUrl} alt={user.name} /></td>
-              <td>{user.name}</td>
-              <td>{user.role}</td>
-              <td>{user.email}</td>
-              <td>{user.phone}</td>
-              <td>
-                <button onClick={() => router.push(`/dashboard/user/${user.id}`)}>Update</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    return(
+        <div class="container mx-auto my-8">
+        <div class="text-center">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Image</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Phone</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Edit</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    {user.length > 0 && (
+                        user.map((userData) => (
+                            <tr key={userData.id}>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <img src={userData.profilePictureUrl} alt={userData.name} class="h-12 w-12 rounded-full"/>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{userData.name}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{userData.role}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{userData.email}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{userData.phoneNumber}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center justify-center">
+                                        <Button class="px-4 py-2 bg-green-500 text-white text-xs font-bold uppercase rounded hover:bg-green-700" onClick={()=>route.push(`/dashboarded/user/${userData.id}`)}>Update</Button>
+                                    </div>
+                                </td>
+                            </tr>
+                        ))
+                    )}
+                </tbody>
+            </table>
+        </div>
     </div>
-  );
-};
-
-export default UserList;
+    )
+}

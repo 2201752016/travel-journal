@@ -8,32 +8,20 @@ const DashboardLayout = ({ children }) => {
     <div className={styles.dashboardContainer}>
       <Navbar />
       <div className={styles.sidebar}>
-        <Link href="/dashboard/user" passHref>
+        <Link href="/dashboarded" passHref>
           <div className={styles.navItem}>User</div>
         </Link>
-        <Link href="/dashboard/banner" passHref>
+        <Link href="/dashboarded/banner" passHref>
           <div className={styles.navItem}>Banner</div>
         </Link>
-        <Link href="/dashboard/promo" passHref>
+        <Link href="/dashboarded/promo" passHref>
           <div className={styles.navItem}>Promo</div>
         </Link>
-        <Link href="/dashboard/category" passHref>
+        <Link href="/dashboarded/category" passHref>
           <div className={styles.navItem}>Category</div>
         </Link>
-        <Link href="/dashboard/activity" passHref>
+        <Link href="/dashboarded/activity" passHref>
           <div className={styles.navItem}>Activity</div>
-        </Link>
-        <Link href="/dashboard/create-banner" passHref>
-          <div className={styles.navItem}>Create Banner</div>
-        </Link>
-        <Link href="/dashboard/create-promo" passHref>
-          <div className={styles.navItem}>Create Promo</div>
-        </Link>
-        <Link href="/dashboard/create-category" passHref>
-          <div className={styles.navItem}>Create Category</div>
-        </Link>
-        <Link href="/dashboard/create-activity" passHref>
-          <div className={styles.navItem}>Create Activity</div>
         </Link>
       </div>
       <div className={styles.content}>

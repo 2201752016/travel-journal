@@ -1,43 +1,56 @@
-import { useEffect, useState } from 'react';
-import useGetData from '../api/useGetData';
-import styles from '../styles/Activity.module.css';
+"use client";
+import Layout from "@components/Layout";
+import useDelete from "@useApi/useDelete";
+import useGetData from "@useApi/useGetData";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import styles from "@/styles/Card.module.css";
 
-const Activity = () => {
+export default function Activity() {
+  const [activities, setActivities] = useState([]);
+  const { deleteData } = useDelete();
   const { getData } = useGetData();
-  const [activitys, setActivitys] = useState([]);
+  const route = useRouter();
 
   useEffect(() => {
-    const fetchData = async () => {
-      const result = await getData('activitys');
-      if (result && Array.isArray(result.data)) {
-        setActivitys(result.data);
+    getData("activities").then((res) => setActivities(res.data.data));
+  }, []);
+
+  const handleDelete = async (id) => {
+    try {
+      const resp = await deleteData(`delete-activity/${id}`);
+      if (resp.status === 200) {
+        setActivities(activities.filter((activity) => activity.id !== id));
       }
-    };
-    fetchData();
-  }, [getData]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
-    <div className={styles.activityContainer}>
-      <h1 className={styles.title}>Activity Data</h1>
-      <button className={styles.createButton}>Create Activity</button>
-      <div className={styles.cardGrid}>
-        {activitys.map((activity) => (
-          <div className={styles.card} key={activity.id}>
-            <img src={activity.imageUrl || '/default-activity.png'} alt={activity.title} className={styles.cardImage} />
-            <div className={styles.cardContent}>
-              <h2>{activity.title}</h2>
-              <p>Created At: {activity.createdAt}</p>
-              <p>Last Update: {activity.updatedAt}</p>
+    <Layout>
+      <div className={styles.cardContainer}>
+        <button className={styles.addButton} onClick={() => route.push("/dashboarded/create-activity")}>
+          Add
+        </button>
+        {activities.length > 0 &&
+          activities.map((activity) => (
+            <div key={activity.id} className={styles.card}>
+              <div className={styles.cardHeader}>
+                <img src={activity.imageUrls} alt={activity.title} />
+              </div>
+              <div className={styles.cardBody}>
+                <h2 className={styles.cardTitle}>{activity.title}</h2>
+                <p className={styles.cardDates}>Created At: {activity.createdAt}</p>
+                <p className={styles.cardDates}>Last Update: {activity.updatedAt}</p>
+              </div>
+              <div className={styles.cardActions}>
+                <button onClick={() => route.push(`/dashboarded/activity/${activity.id}`)}>Update</button>
+                <button onClick={() => handleDelete(activity.id)}>Delete</button>
+              </div>
             </div>
-            <div className={styles.cardActions}>
-              <button className={styles.editButton}>Edit</button>
-              <button className={styles.deleteButton}>Delete</button>
-            </div>
-          </div>
-        ))}
+          ))}
       </div>
-    </div>
+    </Layout>
   );
-};
-
-export default Activity;
+}

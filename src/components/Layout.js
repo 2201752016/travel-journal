@@ -1,10 +1,10 @@
 import { motion } from 'framer-motion';
-import NavBar from './Navbar';
+import Navbar from './Navbar';
 
 const Layout = ({ children }) => {
   return (
     <div>
-      <NavBar />
+      <Navbar />
       <motion.div
         initial="pageInitial"
         animate="pageAnimate"
