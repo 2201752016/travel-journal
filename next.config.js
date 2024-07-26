@@ -17,6 +17,10 @@ module.exports = {
         protocol: 'https',
         hostname: 'encrypted-tbn0.gstatic.com',
       },
+      {
+        protocol: 'https',
+        hostname: 't4.ftcdn.net',
+      },
     ],
   },
   async redirects() {
