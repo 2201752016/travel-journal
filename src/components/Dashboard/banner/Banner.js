@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import useGetData from "@/useApi/useGetData";
 import useDelete from "@/useApi/useDelete";
-import styles from "@/styles/Card.module.css";
+import styles from "@/styles/Banner.module.css";
 
 export default function Banner() {
   const [bannerList, setBannerList] = useState([]);
@@ -31,7 +31,7 @@ export default function Banner() {
   return (
     <div className={styles.bannerContainer}>
       <button className={styles.createButton} onClick={() => route.push("/dashboarded/create-banner")}>
-        Add
+        Add Banner
       </button>
       <div className={styles.cardGrid}>
         {bannerList.length > 0 ? (

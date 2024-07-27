@@ -1,10 +1,11 @@
+// Activity.js
 "use client";
 import Layout from "@components/Layout";
 import useDelete from "@/useApi/useDelete";
 import useGetData from "@/useApi/useGetData";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import styles from "@/styles/Card.module.css";
+import styles from "@/styles/Activity.module.css";
 
 export default function Activity() {
   const [activities, setActivities] = useState([]);
@@ -29,24 +30,24 @@ export default function Activity() {
 
   return (
     <Layout>
-      <div className={styles.cardContainer}>
-        <button className={styles.addButton} onClick={() => route.push("/dashboarded/create-activity")}>
+      <div className={styles.activityContainer}>
+        <button className={styles.createButton} onClick={() => route.push("/dashboarded/create-activity")}>
           Add
         </button>
         {activities.length > 0 &&
           activities.map((activity) => (
             <div key={activity.id} className={styles.card}>
               <div className={styles.cardHeader}>
-                <img src={activity.imageUrls} alt={activity.title} />
+                <img src={activity.imageUrls} alt={activity.title} className={styles.cardImage} />
               </div>
-              <div className={styles.cardBody}>
+              <div className={styles.cardContent}>
                 <h2 className={styles.cardTitle}>{activity.title}</h2>
                 <p className={styles.cardDates}>Created At: {activity.createdAt}</p>
                 <p className={styles.cardDates}>Last Update: {activity.updatedAt}</p>
               </div>
               <div className={styles.cardActions}>
-                <button onClick={() => route.push(`/dashboarded/activity/${activity.id}`)}>Update</button>
-                <button onClick={() => handleDelete(activity.id)}>Delete</button>
+                <button className={styles.editButton} onClick={() => route.push(`/dashboarded/activity/${activity.id}`)}>Update</button>
+                <button className={styles.deleteButton} onClick={() => handleDelete(activity.id)}>Delete</button>
               </div>
             </div>
           ))}

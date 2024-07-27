@@ -1,3 +1,4 @@
+// CreateActivity.js
 import { useState, useEffect } from 'react';
 import useCreate from '../../../useApi/useCreate';
 import axios from 'axios';
@@ -9,6 +10,7 @@ const CreateActivity = () => {
   const [promp, setPromp] = useState('');
   const [categories, setCategories] = useState([]);
   const { postCreate } = useCreate();
+  const router = useRouter();
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -68,6 +70,7 @@ const CreateActivity = () => {
       const res = await postCreate('create-activity', activityData);
       if (res?.status === 200) {
         setPromp(res?.data?.message);
+        router.push('/dashboarded/activity');
       }
     } catch (err) {
       console.error('Error creating activity:', err);
@@ -79,52 +82,55 @@ const CreateActivity = () => {
     <div className={styles.formContainer}>
       <h1>Create Activity</h1>
       <p className={styles.promp}>{promp}</p>
-      <form onSubmit={handleUpload}>
-        <label htmlFor="title">Title</label>
-        <input type="text" id="title" name='title' required />
+      <form onSubmit={handleUpload} className={styles.form}>
+        <label htmlFor="title" className={styles.label}>Title</label>
+        <input type="text" id="title" name='title' required className={styles.input} />
 
-        <label htmlFor="category">Category</label>
-        <select id="category" name='category' required>
+        <label htmlFor="category" className={styles.label}>Category</label>
+        <select id="category" name='category' required className={styles.select}>
           <option value="">Select</option>
           {Array.isArray(categories) && categories.map((cat) => (
             <option key={cat.id} value={cat.id}>{cat.name}</option>
           ))}
         </select>
 
-        <label htmlFor="description">Description</label>
-        <textarea id="description" name="description" required />
+        <label htmlFor="description" className={styles.label}>Description</label>
+        <textarea id="description" name="description" required className={styles.textarea} />
 
-        <label htmlFor="price">Price</label>
-        <input type="number" id="price" name='price' required />
+        <label htmlFor="price" className={styles.label}>Price</label>
+        <input type="number" id="price" name='price' required className={styles.input} />
 
-        <label htmlFor="priceDiscount">Price Discount</label>
-        <input type="number" id="priceDiscount" name='priceDiscount' required />
+        <label htmlFor="priceDiscount" className={styles.label}>Price Discount</label>
+        <input type="number" id="priceDiscount" name='priceDiscount' required className={styles.input} />
 
-        <label htmlFor="rating">Rating</label>
-        <input type="number" id="rating" name='rating' required />
+        <label htmlFor="rating" className={styles.label}>Rating</label>
+        <input type="number" id="rating" name='rating' required className={styles.input} />
 
-        <label htmlFor="totalReview">Total Review</label>
-        <input type="number" id="totalReview" name='totalReview' required />
+        <label htmlFor="totalReview" className={styles.label}>Total Review</label>
+        <input type="number" id="totalReview" name='totalReview' required className={styles.input} />
 
-        <label htmlFor="facilities">Facilities</label>
-        <input type="text" id="facilities" name='facilities' required />
+        <label htmlFor="facilities" className={styles.label}>Facilities</label>
+        <input type="text" id="facilities" name='facilities' required className={styles.input} />
 
-        <label htmlFor="address">Address</label>
-        <input type="text" id="address" name='address' required />
+        <label htmlFor="address" className={styles.label}>Address</label>
+        <input type="text" id="address" name='address' required className={styles.input} />
 
-        <label htmlFor="city">City</label>
-        <input type="text" id="city" name='city' required />
+        <label htmlFor="city" className={styles.label}>City</label>
+        <input type="text" id="city" name='city' required className={styles.input} />
 
-        <label htmlFor="province">Province</label>
-        <input type="text" id="province" name='province' required />
+        <label htmlFor="province" className={styles.label}>Province</label>
+        <input type="text" id="province" name='province' required className={styles.input} />
 
-        <label htmlFor="locationMaps">Location Maps</label>
-        <input type="text" id="locationMaps" name='locationMaps' required />
+        <label htmlFor="locationMaps" className={styles.label}>Location Maps</label>
+        <input type="text" id="locationMaps" name='locationMaps' required className={styles.input} />
 
-        <label htmlFor="image">Image Files</label>
-        <input type="file" id="image" name='image' multiple onChange={handleChange} required />
+        <label htmlFor="image" className={styles.label}>Image Files</label>
+        <input type="file" id="image" name='image' multiple onChange={handleChange} required className={styles.input} />
 
-        <button type="submit">Create Activity</button>
+        <div className={styles.buttonContainer}>
+          <button type="submit" className={styles.button}>Create Activity</button>
+          <button type="button" onClick={() => router.back()} className={`${styles.button} ${styles.buttonCancel}`}>Cancel</button>
+        </div>
       </form>
     </div>
   );

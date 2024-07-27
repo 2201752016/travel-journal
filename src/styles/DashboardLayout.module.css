@@ -1,41 +1,62 @@
 .dashboardContainer {
   display: flex;
+  flex-direction: column;
+}
+
+.dashboardContent {
+  display: flex;
+  margin-top: 64px;
 }
 
 .sidebar {
-  margin-top: 50px;
-  width: 180px;
+  width: 250px;
   background-color: #f8f9fa;
   padding: 20px;
-  border-right: 1px solid #dee2e6;
+  position: fixed;
+  top: 64px;
+  height: calc(100% - 64px);
+  overflow-y: auto;
+  transition: width 0.3s ease;
+  border-right: 1px solid #ddd;
+}
+
+.collapsed {
+  width: 50px;
 }
 
 .navItem {
-  margin-top: 10px;
-  display: block;
+  margin: 10px 0;
+  cursor: pointer;
   padding: 10px;
-  text-decoration: none;
-  color: #333;
-  font-weight: 500;
-  border-radius: 5px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
 }
 
 .navItem:hover {
-  background-color: #788592;
-}
-
-.createSection {
-  margin-top: 20px;
-}
-
-.createItem {
-  display: block;
-  padding: 10px 0;
-  text-decoration: none;
-  color: #333;
+  background-color: #e2e6ea;
 }
 
 .content {
-  flex: 1;
+  margin-left: 250px;
   padding: 20px;
+  flex-grow: 1;
+  transition: margin-left 0.3s ease;
+}
+
+.collapsed + .content {
+  margin-left: 50px;
+}
+
+.collapseButtonContainer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.collapseButton {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
 }
