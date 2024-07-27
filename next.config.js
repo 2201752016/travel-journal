@@ -25,6 +25,10 @@ module.exports = {
         protocol: 'https',
         hostname: 'i.guim.co.uk',
       },
+      {
+        protocol: 'https',
+        hostname: 'external-content.duckduckgo.com',
+      },
     ],
   },
   async redirects() {

@@ -1,4 +1,4 @@
-import EditUser from '../../components/Dashboard/User/EditUser';
+import EditUser from '../../components/Dashboard/User/[id]';
 
 const EditUserPage = () => {
   return <EditUser />;

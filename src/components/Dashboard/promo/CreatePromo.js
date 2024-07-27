@@ -1,69 +1,79 @@
 import { useState } from 'react';
-import axios from 'axios';
+import useCreate from "@/useApi/useCreate";
 import { useRouter } from 'next/router';
 import styles from '../../../styles/CreateForm.module.css';
 
 const CreatePromo = () => {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [promoCode, setPromoCode] = useState('');
-  const [minClaimPrice, setMinClaimPrice] = useState('');
-  const [terms, setTerms] = useState('');
-  const [discountPrice, setDiscountPrice] = useState('');
-  const [imageFile, setImageFile] = useState(null);
-  const router = useRouter();
+  const [promoImage,setpromoImage] = useState(null);
+    const [promp, setPromp] = useState('');
+    const {postCreate} = useCreate();
+    const route = useRouter()
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append('title', title);
-    formData.append('description', description);
-    formData.append('promoCode', promoCode);
-    formData.append('minClaimPrice', minClaimPrice);
-    formData.append('terms', terms);
-    formData.append('discountPrice', discountPrice);
-    formData.append('image', imageFile);
+    const handleChange = async (e) => {
+        const file = e.target.files[0];
+        if (!file?.type?.startsWith('image/')) {
+            setPromp('File should be .jpeg, .jpg or .png format');
+            return;
+        }
+        const formData = new FormData();
+        formData.append('image', file);
+        try {
+            const res = await postCreate('upload-image', formData);
+            setpromoImage(res.data.url);
+        } catch (err) {
+            setPromp(err);
+        }
+    };
 
-    try {
-      await axios.post('https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/create-promo', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          apiKey: '24405e01-fbc1-45a5-9f5a-be13afcd757c',
-        },
-      });
-      router.push('/dashboarded/promo');
-    } catch (error) {
-      console.error('Error creating promo:', error);
-    }
-  };
+    const handleUpload = async (e) => {
+        e.preventDefault();
+        const promoData ={
+            title:e.target.title.value,
+            description:e.target.description.value,
+            imageUrl:promoImage,
+            terms_condition:e.target.term.value,
+            promo_code:e.target.code.value,
+            promo_discount_price: Number(e.target.discount.value),
+            minimum_claim_price: Number(e.target.claim.value),
+        }
+        console.log(promoData);
+        try {
+            const res = await postCreate('create-promo', promoData);
+            if (res?.status === 200) {
+                setPromp(res?.data?.message);
+            }
+        } catch (err) {
+            setPromp(err?.response?.data?.message);
+        }
+    };
 
   return (
     <div className={styles.formContainer}>
       <h1>Create Promo</h1>
-      <form onSubmit={handleSubmit}>
+      <p>{promp}</p>
+      <form onSubmit={handleUpload}>
         <label htmlFor="title">Title</label>
-        <input type="text" id="title" value={title} onChange={(e) => setTitle(e.target.value)} required />
+        <input type="text" id="title" name='title' required />
 
         <label htmlFor="description">Description</label>
-        <textarea id="description" value={description} onChange={(e) => setDescription(e.target.value)} required />
+        <textarea id="description"  name='description' required />
 
         <label htmlFor="promoCode">Promo Code</label>
-        <input type="text" id="promoCode" value={promoCode} onChange={(e) => setPromoCode(e.target.value)} required />
+        <input type="text" id="promoCode" name='code' required />
 
         <label htmlFor="minClaimPrice">Minimum Claim Price</label>
-        <input type="number" id="minClaimPrice" value={minClaimPrice} onChange={(e) => setMinClaimPrice(e.target.value)} required />
+        <input type="number" id="minClaimPrice" name='claim' required />
 
         <label htmlFor="terms">Terms & Conditions</label>
-        <textarea id="terms" value={terms} onChange={(e) => setTerms(e.target.value)} required />
+        <textarea id="terms" name='term' required />
 
         <label htmlFor="discountPrice">Promo Discount Price</label>
-        <input type="number" id="discountPrice" value={discountPrice} onChange={(e) => setDiscountPrice(e.target.value)} required />
+        <input type="number" id="discountPrice" name='discount' required />
 
         <label htmlFor="image">Image File</label>
-        <input type="file" id="image" onChange={(e) => setImageFile(e.target.files[0])} required />
+        <input type="file" id="image" name='image' onChange={handleChange} required />
 
         <button type="submit">Create Promo</button>
-        <button type="button" onClick={() => router.back()}>Cancel</button>
       </form>
     </div>
   );

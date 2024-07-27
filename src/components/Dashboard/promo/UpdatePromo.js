@@ -1,32 +1,30 @@
-import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import styles from '../../../styles/CreateForm.module.css';
+import { useState, useEffect } from 'react';
+import styles from '@/styles/UpdatePromo.module.css';
 
-const UpdatePromo = ({ promoId }) => {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [promoCode, setPromoCode] = useState('');
-  const [minClaimPrice, setMinClaimPrice] = useState('');
-  const [terms, setTerms] = useState('');
-  const [discountPrice, setDiscountPrice] = useState('');
-  const [imageFile, setImageFile] = useState(null);
+const UpdatePromo = () => {
+  const [promo, setPromo] = useState({});
   const router = useRouter();
+  const { promoId } = router.query;
 
   useEffect(() => {
     const fetchPromo = async () => {
-      const result = await axios.get(`https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/promo/${promoId}`, {
-        headers: {
-          apiKey: '24405e01-fbc1-45a5-9f5a-be13afcd757c',
-        },
-      });
-      const promo = result.data;
-      setTitle(promo.title);
-      setDescription(promo.description);
-      setPromoCode(promo.promoCode);
-      setMinClaimPrice(promo.minClaimPrice);
-      setTerms(promo.terms);
-      setDiscountPrice(promo.discountPrice);
+      try {
+        if (!promoId) return;
+
+        const result = await axios.get(
+          `https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/promo/${promoId}`,
+          {
+            headers: {
+              apiKey: '24405e01-fbc1-45a5-9f5a-be13afcd757c',
+            },
+          }
+        );
+        setPromo(result.data.data);
+      } catch (error) {
+        console.error('Error fetching promo:', error);
+      }
     };
 
     fetchPromo();
@@ -34,59 +32,117 @@ const UpdatePromo = ({ promoId }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append('title', title);
-    formData.append('description', description);
-    formData.append('promoCode', promoCode);
-    formData.append('minClaimPrice', minClaimPrice);
-    formData.append('terms', terms);
-    formData.append('discountPrice', discountPrice);
-    if (imageFile) {
-      formData.append('image', imageFile);
-    }
-
     try {
-      await axios.put(`https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/update-promo/${promoId}`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          apiKey: '24405e01-fbc1-45a5-9f5a-be13afcd757c',
+      await axios.post(
+        `https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/update-promo/${promoId}`,
+        {
+          title: promo.title,
+          description: promo.description,
+          imageUrl: promo.imageUrl,
+          discount: promo.discount,
+          terms: promo.terms,
+          promoCode: promo.promoCode,
+          claimCount: promo.claimCount,
         },
-      });
+        {
+          headers: {
+            apiKey: '24405e01-fbc1-45a5-9f5a-be13afcd757c',
+          },
+        }
+      );
+      alert('Promo updated successfully');
       router.push('/dashboarded/promo');
     } catch (error) {
       console.error('Error updating promo:', error);
     }
   };
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setPromo({ ...promo, [name]: value });
+  };
+
   return (
-    <div className={styles.formContainer}>
-      <h1>Update Promo</h1>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="title">Title</label>
-        <input type="text" id="title" value={title} onChange={(e) => setTitle(e.target.value)} required />
-
-        <label htmlFor="description">Description</label>
-        <textarea id="description" value={description} onChange={(e) => setDescription(e.target.value)} required />
-
-        <label htmlFor="promoCode">Promo Code</label>
-        <input type="text" id="promoCode" value={promoCode} onChange={(e) => setPromoCode(e.target.value)} required />
-
-        <label htmlFor="minClaimPrice">Minimum Claim Price</label>
-        <input type="number" id="minClaimPrice" value={minClaimPrice} onChange={(e) => setMinClaimPrice(e.target.value)} required />
-
-        <label htmlFor="terms">Terms & Conditions</label>
-        <textarea id="terms" value={terms} onChange={(e) => setTerms(e.target.value)} required />
-
-        <label htmlFor="discountPrice">Promo Discount Price</label>
-        <input type="number" id="discountPrice" value={discountPrice} onChange={(e) => setDiscountPrice(e.target.value)} required />
-
-        <label htmlFor="image">Image File</label>
-        <input type="file" id="image" onChange={(e) => setImageFile(e.target.files[0])} />
-
-        <button type="submit">Update Promo</button>
-        <button type="button" onClick={() => router.back()}>Cancel</button>
-      </form>
-    </div>
+    <form onSubmit={handleSubmit} className={styles.form}>
+      <label htmlFor="title" className={styles.label}>
+        Title:
+      </label>
+      <input
+        type="text"
+        id="title"
+        name="title"
+        value={promo.title || ''}
+        onChange={handleChange}
+        className={styles.input}
+      />
+      <label htmlFor="description" className={styles.label}>
+        Description:
+      </label>
+      <textarea
+        id="description"
+        name="description"
+        value={promo.description || ''}
+        onChange={handleChange}
+        className={styles.textarea}
+      />
+      <label htmlFor="imageUrl" className={styles.label}>
+        Image URL:
+      </label>
+      <input
+        type="text"
+        id="imageUrl"
+        name="imageUrl"
+        value={promo.imageUrl || ''}
+        onChange={handleChange}
+        className={styles.input}
+      />
+      <label htmlFor="discount" className={styles.label}>
+        Discount:
+      </label>
+      <input
+        type="text"
+        id="discount"
+        name="discount"
+        value={promo.discount || ''}
+        onChange={handleChange}
+        className={styles.input}
+      />
+      <label htmlFor="terms" className={styles.label}>
+        Terms:
+      </label>
+      <textarea
+        id="terms"
+        name="terms"
+        value={promo.terms || ''}
+        onChange={handleChange}
+        className={styles.textarea}
+      />
+      <label htmlFor="promoCode" className={styles.label}>
+        Promo Code:
+      </label>
+      <input
+        type="text"
+        id="promoCode"
+        name="promoCode"
+        value={promo.promoCode || ''}
+        onChange={handleChange}
+        className={styles.input}
+      />
+      <label htmlFor="claimCount" className={styles.label}>
+        Claim Count:
+      </label>
+      <input
+        type="text"
+        id="claimCount"
+        name="claimCount"
+        value={promo.claimCount || ''}
+        onChange={handleChange}
+        className={styles.input}
+      />
+      <button type="submit" className={styles.button}>
+        Update Promo
+      </button>
+    </form>
   );
 };
 

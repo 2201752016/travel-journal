@@ -1,63 +1,64 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import styles from '../../../styles/CreateForm.module.css';
+import styles from '../../../styles/UpdateForm.module.css';
 
-const UpdateBanner = ({ bannerId }) => {
-  const [name, setName] = useState('');
-  const [imageFile, setImageFile] = useState(null);
-  const router = useRouter();
+const UpdateBanner = () => {
+    const [title, setTitle] = useState('');
+    const [imageFile, setImageFile] = useState(null);
+    const router = useRouter();
+    const { id } = router.query;
 
-  useEffect(() => {
-    const fetchBanner = async () => {
-      const result = await axios.get(`https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/banner/${bannerId}`, {
-        headers: {
-          apiKey: '24405e01-fbc1-45a5-9f5a-be13afcd757c',
-        },
-      });
-      const banner = result.data;
-      setName(banner.name);
+    useEffect(() => {
+        const fetchBanner = async () => {
+            const result = await axios.get(`https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/banner/${id}`, {
+                headers: {
+                    apiKey: '24405e01-fbc1-45a5-9f5a-be13afcd757c',
+                },
+            });
+            const banner = result.data.data;
+            setTitle(banner.title);
+        };
+
+        fetchBanner();
+    }, [id]);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const formData = new FormData();
+        formData.append('title', title);
+        if (imageFile) {
+            formData.append('image', imageFile);
+        }
+
+        try {
+            await axios.put(`https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/update-banner/${id}`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    apiKey: '24405e01-fbc1-45a5-9f5a-be13afcd757c',
+                },
+            });
+            router.push('/dashboarded/banner');
+        } catch (error) {
+            console.error('Error updating banner:', error);
+        }
     };
 
-    fetchBanner();
-  }, [bannerId]);
+    return (
+        <div className={styles.formContainer}>
+            <h1>Update Banner</h1>
+            <form onSubmit={handleSubmit} className={styles.form}>
+                <label htmlFor="title" className={styles.label}>Title</label>
+                <input type="text" id="title" value={title} onChange={(e) => setTitle(e.target.value)} required className={styles.input} />
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append('name', name);
-    if (imageFile) {
-      formData.append('image', imageFile);
-    }
+                <label htmlFor="image" className={styles.label}>Image File</label>
+                <input type="file" id="image" onChange={(e) => setImageFile(e.target.files[0])} className={styles.input} />
 
-    try {
-      await axios.put(`https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/update-banner/${bannerId}`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          apiKey: '24405e01-fbc1-45a5-9f5a-be13afcd757c',
-        },
-      });
-      router.push('/dashboarded/banner');
-    } catch (error) {
-      console.error('Error updating banner:', error);
-    }
-  };
-
-  return (
-    <div className={styles.formContainer}>
-      <h1>Update Banner</h1>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="name">Banner Name</label>
-        <input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} required />
-
-        <label htmlFor="image">Image File</label>
-        <input type="file" id="image" onChange={(e) => setImageFile(e.target.files[0])} />
-
-        <button type="submit">Update Banner</button>
-        <button type="button" onClick={() => router.back()}>Cancel</button>
-      </form>
-    </div>
-  );
+                <button type="submit" className={styles.button}>Update Banner</button>
+                <button type="button" onClick={() => router.back()} className={`${styles.button} ${styles.buttonCancel}`}>Cancel</button>
+            </form>
+        </div>
+    );
 };
 
 export default UpdateBanner;

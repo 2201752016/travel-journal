@@ -1,44 +1,56 @@
-import { useState } from 'react';
-import axios from 'axios';
+import useCreate from "../../../api/useCreate";
+import { useState } from "react";
 import styles from '../../../styles/CreateForm.module.css';
-import { useRouter } from 'next/router';
 
 const CreateBanner = () => {
-  const [name, setName] = useState('');
-  const [imageFile, setImageFile] = useState(null);
-  const router = useRouter();
+  const [bannerImage,setbannerImage] = useState("");
+  const [promp, setPromp] = useState('');
+  const {postCreate} = useCreate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append('name', name);
-    formData.append('image', imageFile);
-
-    try {
-      await axios.post('https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/create-banner', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          apiKey: '24405e01-fbc1-45a5-9f5a-be13afcd757c',
-        },
-      });
-      router.push('/dashboarded/banner');
-    } catch (error) {
-      console.error('Error creating banner:', error);
-    }
+  const handleChange = async (e) => {
+      const file = e.target.files[0];
+      if (!file?.type?.startsWith('image/')) {
+          setPromp('File should be .jpeg, .jpg or .png format');
+          return;
+      }
+      const formData = new FormData();
+      formData.append('image', file);
+      try {
+          const res = await postCreate('upload-image', formData);
+          setbannerImage(res.data.url);
+      } catch (err) {
+          setPromp(err);
+        }
   };
+
+  const handleUpload = async (e) => {
+      e.preventDefault();
+      const bannerData ={
+          name:e.target.name.value,   
+          imageUrl:bannerImage,
+      }
+      try {
+          const res = await postCreate('create-banner', bannerData);
+          if (res?.status === 200) {
+              setPromp(res?.data?.message);
+          }
+      } catch (err) {
+              setPromp(err?.response?.data?.message);
+        }
+  };
 
   return (
     <div className={styles.formContainer}>
       <h1>Create Banner</h1>
-      <form onSubmit={handleSubmit}>
+      <p>{promp}</p>
+      <form onSubmit={handleUpload}>
         <label htmlFor="name">Banner Name</label>
-        <input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} required />
+        <input type="text" id="name" name='name' required />
 
         <label htmlFor="image">Image File</label>
-        <input type="file" id="image" onChange={(e) => setImageFile(e.target.files[0])} required />
+        <input type="file" id="image" name='image' onChange={handleChange} required />
 
         <button type="submit">Create Banner</button>
-        <button type="button" onClick={() => router.back()}>Back</button>
       </form>
     </div>
   );

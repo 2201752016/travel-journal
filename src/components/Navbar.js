@@ -79,7 +79,7 @@ const Navbar = () => {
             Promo
           </Link>
           {user?.role === 'admin' && (
-            <Link href="/dashboard" className={`nav-link orange-dark ${pathname.startsWith('/dashboard') && 'on'}`}>
+            <Link href="/dashboarded" className={`nav-link orange-dark ${pathname.startsWith('/dashboard') && 'on'}`}>
               Dashboard
             </Link>
           )}
