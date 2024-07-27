@@ -1,7 +1,7 @@
 "use client";
 import Layout from "@components/Layout";
-import useDelete from "@useApi/useDelete";
-import useGetData from "@useApi/useGetData";
+import useDelete from "@/useApi/useDelete";
+import useGetData from "@/useApi/useGetData";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import styles from "@/styles/Card.module.css";

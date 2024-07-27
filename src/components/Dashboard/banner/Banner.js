@@ -1,8 +1,8 @@
 "use client";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import useGetData from "@useApi/useGetData";
-import useDelete from "@useApi/useDelete";
+import useGetData from "@/useApi/useGetData";
+import useDelete from "@/useApi/useDelete";
 import styles from "@/styles/Card.module.css";
 
 export default function Banner() {

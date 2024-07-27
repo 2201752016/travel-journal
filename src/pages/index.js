@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import useGetData from '@/api/useGetData';
+import useGetData from '@/useApi/useGetData';
 import styles from '@/styles/home.module.css';
 import Image from 'next/image';
 import { motion } from 'framer-motion';

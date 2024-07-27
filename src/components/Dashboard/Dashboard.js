@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import useGetData from '../../api/useGetData';
+import useGetData from '../../useApi/useGetData';
 import styles from '../styles/Dashboard.module.css';
 
 const Dashboard = () => {

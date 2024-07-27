@@ -1,9 +1,9 @@
 "use client";
 import Layout from "@components/Layout";
-import useDelete from "@useApi/useDelete";
+import useDelete from "@/useApi/useDelete";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import useGetData from "@useApi/useGetData";
+import useGetData from "@/useApi/useGetData";
 import styles from "@/styles/Card.module.css";
 
 export default function Category() {

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import useAuth from '../api/useAuth';
+import useAuth from '../useApi/useAuth';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import styles from '../styles/Form.module.css';

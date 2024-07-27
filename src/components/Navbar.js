@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { useSelector, useDispatch } from 'react-redux';
 import styles from '../styles/Navbar.module.css';
 import { logout, setUser } from '../redux/slices/authSlice';
-import useAuth from '../api/useAuth';
+import useAuth from '../useApi/useAuth';
 
 const Navbar = () => {
   const { userLog } = useAuth();

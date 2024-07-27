@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import useCreate from "@/useApi/useCreate";
 import { useRouter } from 'next/router';
-import styles from '../../../styles/CreateForm.module.css';
+import styles from '../../../styles/Form.module.css';
 
 const CreatePromo = () => {
   const [promoImage,setpromoImage] = useState(null);

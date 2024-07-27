@@ -1,55 +1,79 @@
 import { useState, useEffect } from 'react';
-import useCreate from '../../../api/useCreate';
+import useCreate from '../../../useApi/useCreate';
+import axios from 'axios';
 import styles from '../../../styles/CreateForm.module.css';
 import { useRouter } from 'next/router';
 
 const CreateActivity = () => {
-  const [activityImage,setactivityImage] = useState(null);
+  const [activityImage, setActivityImage] = useState(null);
   const [promp, setPromp] = useState('');
-  const {postCreate} = useCreate();
+  const [categories, setCategories] = useState([]);
+  const { postCreate } = useCreate();
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get('https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/categories', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            apiKey: '24405e01-fbc1-45a5-9f5a-be13afcd757c',
+          },
+        });
+        setCategories(response.data.data);
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   const handleChange = async (e) => {
-      const file = e.target.files[0];
-      if (!file?.type?.startsWith('image/')) {
-          setPromp('File should be .jpeg, .jpg or .png format');
-          return;
-      }
-      const formData = new FormData();
-      formData.append('image', file);
-      try {
-          const res = await postCreate('upload-image', formData);
-          setactivityImage(res.data.url);
-      } catch (err) {
-          setPromp(err);
-        }
+    const file = e.target.files[0];
+    if (!file?.type?.startsWith('image/')) {
+      setPromp('File should be .jpeg, .jpg or .png format');
+      return;
+    }
+    const formData = new FormData();
+    formData.append('image', file);
+    try {
+      const res = await postCreate('upload-image', formData);
+      setActivityImage(res.data.url);
+    } catch (err) {
+      setPromp(err.message);
+    }
   };
 
   const handleUpload = async (e) => {
-      e.preventDefault();
-      const activityData ={
-          categoryId:e.target.categoryID.value,
-          title:e.target.title.value,  
-          description:e.target.description.value,   
-          imageUrls:activityImage,
-          price: Number(e.target.price.value),
-          price_discount: Number(e.target.discount.value),  
-          rating: Number(e.target.rating.value),  
-          total_reviews: Number(e.target.review.value),
-          facilities:e.target.facilities.value,  
-          address:e.target.address.value,  
-          province:e.target.province.value,
-          city:e.target.city.value,  
-          location_maps:e.target.location.value,  
+    e.preventDefault();
+    const activityData = {
+      categoryId: e.target.category.value,
+      title: e.target.title.value,
+      description: e.target.description.value,
+      imageUrls: [activityImage],
+      price: Number(e.target.price.value),
+      price_discount: Number(e.target.priceDiscount.value),
+      rating: Number(e.target.rating.value),
+      total_reviews: Number(e.target.totalReview.value),
+      facilities: e.target.facilities.value,
+      address: e.target.address.value,
+      province: e.target.province.value,
+      city: e.target.city.value,
+      location_maps: e.target.locationMaps.value,
+    };
+
+    console.log('activityData:', activityData);
+
+    try {
+      const res = await postCreate('create-activity', activityData);
+      if (res?.status === 200) {
+        setPromp(res?.data?.message);
       }
-      try {
-          const res = await postCreate('create-activity', activityData);
-          if (res?.status === 200) {
-              setPromp(res?.data?.message);
-          }
-      } catch (err) {
-          setPromp(err?.response?.data?.message);
-        }
-    };
+    } catch (err) {
+      console.error('Error creating activity:', err);
+      setPromp(err?.response?.data?.message);
+    }
+  };
 
   return (
     <div className={styles.formContainer}>
@@ -77,7 +101,7 @@ const CreateActivity = () => {
         <input type="number" id="priceDiscount" name='priceDiscount' required />
 
         <label htmlFor="rating">Rating</label>
-        <input type="number" id="rating" name='rating'required />
+        <input type="number" id="rating" name='rating' required />
 
         <label htmlFor="totalReview">Total Review</label>
         <input type="number" id="totalReview" name='totalReview' required />

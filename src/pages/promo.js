@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import useGetData from '../api/useGetData';
+import useGetData from '../useApi/useGetData';
 import { motion } from 'framer-motion';
 
 export default function Promo() {

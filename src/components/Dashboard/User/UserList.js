@@ -1,5 +1,5 @@
 "use client";
-import useGetData from "../../../api/useGetData";
+import useGetData from "../../../useApi/useGetData";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Button from "@components/ui/Button";

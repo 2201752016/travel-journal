@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
-import useCreate from "../../../api/useCreate";
+import useCreate from "../../../useApi/useCreate";
 import Button from "@components/ui/Button";
 
 export default function UpdateUser(){
