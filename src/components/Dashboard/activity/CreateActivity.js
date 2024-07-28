@@ -1,4 +1,3 @@
-// CreateActivity.js
 import { useState, useEffect } from 'react';
 import useCreate from '../../../useApi/useCreate';
 import axios from 'axios';

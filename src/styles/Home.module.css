@@ -1,115 +1,122 @@
 .container {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-    background-color: #e0f7fa;
-  }
-  
-  .heroSection {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 50px;
-    background-color: #b2ebf2;
-  }
-  
-  .heroText {
-    flex: 1;
-    padding-right: 20px;
-  }
-  
-  .heroText h1 {
-    font-size: 3rem;
-    color: #006064;
-  }
-  
-  .heroText p {
-    font-size: 1.2rem;
-    color: #004d40;
-  }
-  
-  .exploreButton {
-    background-color: #004d40;
-    color: #ffffff;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    margin-top: 20px;
-  }
-  
-  .heroImage {
-    flex: 1;
-    position: relative;
-    height: 300px;
-    cursor: pointer;
-  }
-  
-  .promoSection, .bannerSection, .activitySection {
-    padding: 50px;
-  }
-  
-  .promoSection h2, .bannerSection h2, .activitySection h2 {
-    font-size: 2rem;
-    color: #006064;
-  }
-  
-  .promoSection p, .bannerSection p, .activitySection p {
-    font-size: 1.2rem;
-    color: #004d40;
-  }
-  
-  .promoGrid, .bannerGrid, .activityGrid {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-  }
-  
-  .promoCard, .bannerCard, .activityCard {
-    background-color: #ffffff;
-    border: 1px solid #004d40;
-    padding: 10px;
-    cursor: pointer;
-  }
-  
-  .promoCard img, .bannerCard img, .activityCard img {
-    width: 100%;
-    height: auto;
-  }
-  
-  .seeAllButton {
-    background-color: #004d40;
-    color: #ffffff;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    margin-top: 20px;
-  }
-  
-  .footer {
-    background-color: #004d40;
-    color: #ffffff;
-    padding: 20px;
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .footerContent {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-  }
-  
-  .footerContent div {
-    flex: 1;
-    padding: 0 20px;
-  }
-  
-  .footerContent h3 {
-    margin-bottom: 10px;
-  }
-  
-  .footerContent p {
-    margin: 0;
-  }
-  
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+  background-color: #66c2ff;
+  overflow-y: auto;
+}
+
+.heroSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 50px;
+  background-color: #005c99;
+}
+
+.heroText {
+  flex: 1;
+  padding-right: 20px;
+}
+
+.heroText h1 {
+  font-size: 3rem;
+  color: #b3e0ff;
+}
+
+.heroText p {
+  font-size: 1.2rem;
+  color: #b3e0ff;
+}
+
+.exploreButton {
+  background-color: #1ad1ff;
+  color: #ffffff;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.exploreButton:hover {
+  background-color: #006680;
+}
+
+.heroImage {
+  flex: 1;
+  position: relative;
+  height: 300px;
+  cursor: pointer;
+}
+
+.promoSection, .bannerSection, .activitySection {
+  padding: 50px;
+  background-color: #005c99;
+}
+
+.promoSection h2, .bannerSection h2, .activitySection h2 {
+  font-size: 2rem;
+  color: #b3e0ff;
+}
+
+.promoSection p, .bannerSection p, .activitySection p {
+  font-size: 1.2rem;
+  color: #b3e0ff;
+}
+
+.promoCard, .bannerCard, .activityCard {
+  background-color: #0099ff;
+  border: 1px solid #0000ff;
+  padding: 10px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.promoCard img, .bannerCard img, .activityCard img {
+  width: 100%;
+  height: auto;
+}
+
+.seeAllButton {
+  background-color: #1ad1ff;
+  color: #ffffff;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  margin-top: 20px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.seeAllButton:hover {
+  background-color: #006680;
+}
+
+.footer {
+  background-color: #3399ff;
+  color: #ffffff;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.footerContent {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.footerContent div {
+  flex: 1;
+  padding: 0 20px;
+}
+
+.footerContent h3 {
+  margin-bottom: 10px;
+}
+
+.footerContent p {
+  margin: 0;
+}

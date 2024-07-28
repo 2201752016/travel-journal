@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import useGetData from '@/useApi/useGetData';
-import styles from '@/styles/home.module.css';
+import styles from '@/styles/Home.module.css';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 
@@ -19,7 +19,7 @@ export default function Home() {
   }, []);
 
   const handleBannerClick = (bannerId) => {
-    router.push(`/detail/banner/${bannerId}`);
+    router.push(`/banner/${bannerId}`);
   };
 
   const handlePromoClick = () => {
@@ -34,13 +34,13 @@ export default function Home() {
     <div className={styles.container}>
       <section className={styles.heroSection}>
         <div className={styles.heroText}>
-          <h1>Adventure to Explore Through the Beautiful World</h1>
+          <h1>Go Around The World and Explore Everything</h1>
           <p>
-            Embark on an unforgettable adventure through breathtaking landscapes
-            and captivating encounters in the beautiful world around you.
+            Go for a Trip through out breathtaking landscapes
+            and Amazing encounters around you.
           </p>
           <button onClick={handleActivityClick} className={styles.exploreButton}>
-            Explore Now
+            Take a Look
           </button>
         </div>
         {banners.length > 0 && (
@@ -61,8 +61,8 @@ export default function Home() {
       </section>
 
       <section className={styles.promoSection}>
-        <h2>Special Promo For You!</h2>
-        <p>Exclusive Offer Just for You! Don't Miss Out!</p>
+        <h2>Exclusive Promo Just For You!</h2>
+        <p>Don't Miss Out! A Special Offer That You Might Like!</p>
         <div className={styles.promoGrid}>
           {promos.slice(0, 4).map((promo) => (
             <motion.div
@@ -85,13 +85,13 @@ export default function Home() {
           ))}
         </div>
         <button onClick={handlePromoClick} className={styles.seeAllButton}>
-          See All Promo
+          All Promo
         </button>
       </section>
 
       <section className={styles.bannerSection}>
-        <h2>Find What You Love</h2>
-        <p>Let's Discover Your Passion</p>
+        <h2>Discover new Place</h2>
+        <p>Let's Create Your New Passion</p>
         <div className={styles.bannerGrid}>
           {banners.map((banner) => (
             <motion.div
@@ -114,8 +114,8 @@ export default function Home() {
       </section>
 
       <section className={styles.activitySection}>
-        <h2>Explore All Activities</h2>
-        <p>Discover a Plethora of Activities to Explore</p>
+        <h2>Explore Everything the World has to offer</h2>
+        <p>Discover a New things while exploring</p>
         <div className={styles.activityGrid}>
           {activities.map((activity) => (
             <motion.div

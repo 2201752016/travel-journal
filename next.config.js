@@ -33,11 +33,11 @@ module.exports = {
   },
   async redirects() {
     return [
-      {
-        source: '/',
-        destination: '/dashboard/user',
-        permanent: true,
-      },
+      // {
+      //   source: '/',
+      //   destination: '/',
+      //   permanent: true,
+      // },
     ];
   },
 };

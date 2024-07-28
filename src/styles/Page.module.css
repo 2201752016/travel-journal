@@ -1,0 +1,162 @@
+.body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.tengah {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.wrap {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.gap-3 {
+    gap: 1rem;
+}
+
+.my-5 {
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+}
+
+.border {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
+
+.p-5 {
+    padding: 3rem;
+}
+
+.m-5 {
+    margin: 3rem;
+}
+
+.text-start {
+    text-align: left;
+}
+
+.text-primary {
+    color: #007bff;
+}
+
+.fw-bold {
+    font-weight: bold;
+}
+
+/* Activity Page Styles */
+.activity-page {
+    text-align: center;
+}
+
+.activity-page h1 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.activity-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.activity-card {
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.activity-card:hover {
+    transform: scale(1.05);
+}
+
+.activity-card img {
+    border-radius: 10px;
+}
+
+.activity-card h6 {
+    font-size: 1.2rem;
+    margin: 0.5rem 0;
+}
+
+.activity-card p {
+    color: #555;
+}
+
+/* Promo Page Styles */
+.promo-page {
+    text-align: center;
+}
+
+.promo-page h1 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.promo-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.promo-card {
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.promo-card:hover {
+    transform: scale(1.05);
+}
+
+.promo-card img {
+    border-radius: 10px;
+}
+
+.promo-card h6 {
+    font-size: 1.2rem;
+    margin: 0.5rem 0;
+}
+
+.promo-page .error {
+    color: red;
+}
+
+.promo-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+}
+
+.promo-button img {
+    border-radius: 10px;
+}
+
+/* Button Styles */
+.btn {
+    background-color: #007bff;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}

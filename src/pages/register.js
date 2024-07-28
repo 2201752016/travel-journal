@@ -2,6 +2,7 @@ import { useState } from 'react';
 import useAuth from '../useApi/useAuth';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import { useSelector } from 'react-redux';
 import styles from '../styles/Form.module.css';
 import Input from '../components/ui/Input';
 import Button from '../components/ui/Button';
@@ -12,6 +13,7 @@ const Register = () => {
   const { Auth, loading } = useAuth();
   const [prompt, setPrompt] = useState([]);
   const [role, setRole] = useState('user');
+  const darkMode = useSelector((state) => state.theme.darkMode);
 
   const handleChange = async (e) => {
     const file = e.target.files[0];
@@ -47,7 +49,7 @@ const Register = () => {
   };
 
   return (
-    <motion.div className={styles.formContainer} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+    <motion.div className={`${styles.formContainer} ${darkMode ? 'dark-mode' : ''}`} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
       <form onSubmit={handleRegister} className={styles.form}>
         <h1>Register</h1>
         <Input label="Email" id="email" name="email" type="email" required />
@@ -77,4 +79,3 @@ const Register = () => {
 };
 
 export default Register;
-

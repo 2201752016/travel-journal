@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
 import { store } from '../redux/store';
 import '../styles/globals.css';
@@ -8,12 +9,23 @@ import { useRouter } from 'next/router';
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    const checkAdminStatus = async () => {
+      const userIsAdmin = await fakeAuthCheck();
+      setIsAdmin(userIsAdmin);
+    };
+
+    checkAdminStatus();
+  }, [router]);
+
   const isDashboard = router.pathname.startsWith('/dashboarded');
 
   return (
     <Provider store={store}>
       <ThemeProvider>
-        {isDashboard ? (
+        {isDashboard && isAdmin ? (
           <DashboardLayout>
             <Component {...pageProps} />
           </DashboardLayout>
@@ -26,5 +38,13 @@ function MyApp({ Component, pageProps }) {
     </Provider>
   );
 }
+
+const fakeAuthCheck = async () => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(true);
+    }, 1000);
+  });
+};
 
 export default MyApp;
