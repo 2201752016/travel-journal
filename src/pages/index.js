@@ -89,25 +89,25 @@ export default function Home() {
         </button>
       </section>
 
-      <section className={styles.bannerSection}>
+      <section className={styles.activitiesSection}>
         <h2>Discover new Place</h2>
         <p>Let's Create Your New Passion</p>
-        <div className={styles.bannerGrid}>
-          {banners.map((banner) => (
+        <div className={styles.activitiesGrid}>
+          {activities.map((activities) => (
             <motion.div
-              key={banner.id}
-              className={styles.bannerCard}
+              key={activities.id}
+              className={styles.activitiesCard}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              onClick={() => handleBannerClick(banner.id)}
+              onClick={() => handleactivitiesClick(activities.id)}
             >
               <Image
-                src={banner.imageUrl}
-                alt={banner.name}
+                src={activities.imageUrl}
+                alt={activities.name}
                 width={300}
                 height={200}
               />
-              <h6>{banner.name}</h6>
+              <h6>{activities.name}</h6>
             </motion.div>
           ))}
         </div>

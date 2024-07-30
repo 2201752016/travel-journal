@@ -1,5 +1,4 @@
 "use client"
-import Layout from "@/components/Layout";
 import useGetData from "@/useApi/useGetData";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";

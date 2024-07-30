@@ -1,5 +1,5 @@
 "use client"
-import Layout from "@/component/Layout";
+import Layout from "@/components/Layout";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import useGetData from "@/useApi/useGetData";
@@ -16,7 +16,7 @@ export default function categoryDetail(){
 
     return(
         <Layout>
-            <div key={detail.id} className="container gap-5 p-5 m-5 mx-auto border  tengah-detail border-dark" style={{width:"40%"}}>
+            <div key={detail.id} className="container gap-5 p-5 m-5 mx-auto border tengah-detail border-dark" style={{width:"40%"}}>
                 <Image src={detail.imageUrl} alt={detail.name} className="mx-auto img-detail" height={300} width={300}/>
                 <div className="ps-5 text-start">
                     <p>Name: {detail.name}</p>
