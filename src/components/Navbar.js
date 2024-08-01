@@ -13,7 +13,7 @@ const Navbar = () => {
   const router = useRouter();
   const [navStyle, setNavStyle] = useState('');
   const user = useSelector((state) => state.auth.user);
-  const darkMode = useSelector((state) => state.theme.darkMode);
+  // const darkMode = useSelector((state) => state.theme.darkMode);
   const dispatch = useDispatch();
   const { pathname } = router;
 
@@ -91,9 +91,9 @@ const Navbar = () => {
           )}
         </div>
         <div className={styles.authLinks}>
-          <button onClick={handleThemeToggle} className={styles.themeToggle}>
+          {/* <button onClick={handleThemeToggle} className={styles.themeToggle}>
             {darkMode ? 'Light Mode' : 'Dark Mode'}
-          </button>
+          </button> */}
           {user ? (
             <div className={styles.profileDropdown}>
               <div className={styles.profileLink}>
