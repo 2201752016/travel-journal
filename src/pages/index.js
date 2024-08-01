@@ -70,7 +70,7 @@ export default function Home() {
               className={styles.promoCard}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              onClick={() => router.push(`/detail/promo/${promo.id}`)}
+              onClick={() => router.push(`promo/${promo.id}`)}
             >
               {promo.imageUrls && promo.imageUrls.length > 0 && (
                 <Image
@@ -123,7 +123,7 @@ export default function Home() {
               className={styles.activityCard}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              onClick={() => router.push(`/detail/activity/${activity.id}`)}
+              onClick={() => router.push(`activity/${activity.id}`)}
             >
               <Image
                 src={activity.imageUrl}

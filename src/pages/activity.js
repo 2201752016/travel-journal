@@ -1,4 +1,4 @@
-import useGetData from "@/useApi/useGetData"
+import useGetData from "@/useApi/useGetData";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Image from "next/image";
@@ -12,38 +12,30 @@ import {
   CardHeader,
   CardTitle,
 } from "../components/ui/card";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 
+export default function ActivityPage() {
+  const [activity, setActivity] = useState([]);
+  const { getData } = useGetData();
+  const route = useRouter();
 
+  useEffect(() => {
+    getData(`activities`).then((resp) => setActivity(resp.data.data));
+  }, []); // Include an empty dependency array to ensure it runs once
 
-export default function ActivityPage(){
-    const [activity, setActivity] = useState([]);
-    const {getData} = useGetData();
-    const route = useRouter();
-
-    useEffect(()=>{
-        getData(`activities`).then((resp)=>setActivity(resp.data.data))
-    })
-    return(
+  return (
     <section className="flex flex-col items-center justify-center w-3/4 p-5 mx-auto mt-10 bg-gray-300 border rounded-xl backdrop-filter backdrop-blur-md bg-opacity-10">
       <h1 className="text-3xl font-bold max-sm:text-xl max-sm:text-center">
         Create Memories with Every Activity
       </h1>
       <p className="text-gray-500 max-sm:text-sm max-sm:text-center">
-        "Suggest that each activity will lead to lasting and cherished
-        memories."
+        "Suggest that each activity will lead to lasting and cherished memories."
       </p>
-      <div
-        opts={{
-          align: "start",
-          loop: true,
-        }}
-        className="w-11/12 mt-10 max-sm:hidden"
-      >
+      <div className="w-11/12 mt-10 max-sm:hidden">
         <div>
           {activity.map((item) => (
             <div key={item.id} className="basis-1/3">
-              <Link to={"/activity"}>
+              <Link href="/activity" passHref>
                 <Card className="w-[250px] hover:scale-95 duration-300 border-none bg-slate-300 pt-5">
                   <CardContent className="flex flex-col items-center justify-center gap-2">
                     <img
@@ -79,17 +71,11 @@ export default function ActivityPage(){
         <div className="bg-blue-500" />
       </div>
 
-      <div
-        className="w-9/12 mt-5 sm:hidden"
-        opts={{
-          align: "start",
-          loop: true,
-        }}
-      >
+      <div className="w-9/12 mt-5 sm:hidden">
         <div>
           {activity.map((item) => (
             <div key={item.id}>
-              <Link to={"/activity"}>
+              <Link href="/activity" passHref>
                 <Card>
                   <CardContent className="flex flex-col items-center justify-center gap-2 mt-5">
                     <img
@@ -123,5 +109,5 @@ export default function ActivityPage(){
         </div>
       </div>
     </section>
-    )
+  );
 }
