@@ -7,48 +7,74 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
-  CardHeader,
   CardTitle,
 } from "../components/ui/card";
 import { formatRupiah } from "../utils/utils";
 import Link from "next/link";
 
-export default function PromoPage() {
-  const [promo, setPromo] = useState([]);
+const API_URL = "https://travel-journal-api-bootcamp.do.dibimbing.id";
+const API_KEY = "24405e01-fbc1-45a5-9f5a-be13afcd757c";
+
+export async function getServerSideProps() {
+  const response = await fetch(`${API_URL}/api/v1/promos`, {
+    headers: {
+      Authorization: `Bearer ${API_KEY}`,
+    },
+  });
+
+  const data = await response.json();
+
+  return {
+    props: {
+      initialPromoData: data?.data || [],
+    },
+  };
+}
+
+export default function PromoPage({ initialPromoData }) {
+  const [promo, setPromo] = useState(initialPromoData);
   const { getData } = useGetData();
   const route = useRouter();
-  
-  useEffect(() => {
-    getData(`promos`).then((res) => setPromo(res?.data?.data));
-    AOS.init({});
-  }, []);
-  
-  return (
-    <section className="w-3/4 mx-auto">
-      <div className="flex flex-col items-center justify-center gap-10 p-5 bg-gray-300 border backdrop-filter backdrop-blur-md bg-opacity-10 rounded-2xl">
-        <div className="flex flex-col items-center justify-center">
-          <h1 className="text-3xl font-bold max-sm:text-xl">Travel More, Save More</h1>
-          <p className="text-gray-500 max-sm:text-sm max-sm:text-center">
-            "With our exclusive discounts and offers, you can explore more of the world without worrying about your budget."
-          </p>
-        </div>
 
-        <div className="flex w-3/4 space-x-16 overflow-hidden group">
-          <div className="flex space-x-16 animate-loop-scroll group-hover:paused max-sm:animate-loop-scroll-sm">
-            {promo.map((item) => (
-              <Link href="/promo" key={item.id} passHref>
-                <Card
-                  className="w-[250px] hover:scale-105 duration-300 hover:bg-blue-300 bg-slate-300 pt-5"
-                >
+  useEffect(() => {
+    AOS.init({});
+    if (promo.length === 0) {
+      getData(`promos`).then((res) => setPromo(res?.data?.data));
+    }
+  }, []);
+
+  return (
+    <section
+      className="flex flex-col items-center justify-center w-3/4 p-5 mx-auto mt-10 bg-gray-300 border rounded-xl backdrop-filter backdrop-blur-md bg-opacity-10"
+      style={{ marginTop: '80px' }}
+    >
+      <h1 className="text-3xl font-bold max-sm:text-xl max-sm:text-center">
+        Create Memories with Every Activity
+      </h1>
+      <p className="text-gray-500 max-sm:text-sm max-sm:text-center">
+        "Suggest that each activity will lead to lasting and cherished memories."
+      </p>
+      <div className="w-11/12 mt-10 max-sm:hidden">
+        <div className="flex flex-wrap">
+          {promo.length > 0 ? (
+            promo.map((item) => (
+              <Link
+                href={`/detail/promo/${item.id}`}
+                key={item.id}
+                passHref
+                className="mx-auto basis-1/3"
+              >
+                <Card className="w-[250px] hover:scale-105 duration-300 hover:bg-blue-300 bg-slate-300 pt-5 m-4 cursor-pointer">
                   <CardContent className="flex flex-col items-center justify-center gap-2">
                     <CardTitle className="text-lg font-bold">
                       {item.title}
                     </CardTitle>
-                    <img
+                    <Image
                       src={item.imageUrl}
                       alt="promoImg"
-                      className="rounded-lg"
+                      className="rounded-lg aspect-video"
+                      width={250}
+                      height={250}
                     />
                     <div className="flex gap-2">
                       <CardDescription className="line-through">
@@ -61,8 +87,10 @@ export default function PromoPage() {
                   </CardContent>
                 </Card>
               </Link>
-            ))}
-          </div>
+            ))
+          ) : (
+            <p>Loading...</p>
+          )}
         </div>
       </div>
     </section>

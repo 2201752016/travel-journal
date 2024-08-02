@@ -14,8 +14,9 @@ export default function useAuth() {
           apiKey: '24405e01-fbc1-45a5-9f5a-be13afcd757c',
         },
       });
-      localStorage.setItem('token', resp.data.token);
-      localStorage.setItem('email', resp.data.data.email);
+      Cookies.set('token', resp.data.token, { expires: 7 });
+      Cookies.set('email', resp.data.data.email, { expires: 7 });
+
       router.push('/dashboarded');
       setLoading(false);
     } catch (error) {
@@ -30,7 +31,7 @@ export default function useAuth() {
       const resp = await axios.get(`https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/${url}`, {
         headers: {
           apiKey: '24405e01-fbc1-45a5-9f5a-be13afcd757c',
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          Authorization: `Bearer ${Cookies.get('token')}`,
         },
       });
       if (callback) callback(resp.data);

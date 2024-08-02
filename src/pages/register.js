@@ -13,7 +13,7 @@ const Register = () => {
   const { Auth, loading } = useAuth();
   const [prompt, setPrompt] = useState([]);
   const [role, setRole] = useState('user');
-  const darkMode = useSelector((state) => state.theme.darkMode);
+  // const darkMode = useSelector((state) => state.theme.darkMode);
 
   const handleChange = async (e) => {
     const file = e.target.files[0];
@@ -49,7 +49,7 @@ const Register = () => {
   };
 
   return (
-    <motion.div className={`${styles.formContainer} ${darkMode ? 'dark-mode' : ''}`} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+    <motion.div className={`${styles.formContainer}`}>
       <form onSubmit={handleRegister} className={styles.form}>
         <h1>Register</h1>
         <Input label="Email" id="email" name="email" type="email" required />

@@ -59,9 +59,9 @@ const Navbar = () => {
     console.log('Current user from Redux:', user);
   }, [user]);
 
-  const handleThemeToggle = () => {
-    dispatch(toggleDarkMode());
-  };
+  // const handleThemeToggle = () => {
+  //   dispatch(toggleDarkMode());
+  // };
 
   return (
     <nav className={`${styles.navbar} ${navStyle}`}>

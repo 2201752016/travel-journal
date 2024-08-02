@@ -2,9 +2,10 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Arial, sans-serif;
-  background-color: #66c2ff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #e0f7fa;
   overflow-y: auto;
+  margin-top: 60px;
 }
 
 .heroSection {
@@ -12,7 +13,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 50px;
-  background-color: #005c99;
+  background-color: #f5fafd;
 }
 
 .heroText {
@@ -22,25 +23,27 @@
 
 .heroText h1 {
   font-size: 3rem;
-  color: #b3e0ff;
+  color: #006064; 
+  margin-bottom: 10px;
 }
 
 .heroText p {
   font-size: 1.2rem;
-  color: #b3e0ff;
+  color: #004d40;
 }
 
 .exploreButton {
-  background-color: #1ad1ff;
+  background-color: #00838f;
   color: #ffffff;
   padding: 10px 20px;
   border: none;
+  border-radius: 5px;
   cursor: pointer;
   margin-top: 20px;
 }
 
 .exploreButton:hover {
-  background-color: #006680;
+  background-color: #005662;
 }
 
 .heroImage {
@@ -52,37 +55,44 @@
 
 .promoSection, .bannerSection, .activitySection {
   padding: 50px;
-  background-color: #005c99;
+  background-color: #e0f7fa;
 }
 
 .promoSection h2, .bannerSection h2, .activitySection h2 {
   font-size: 2rem;
-  color: #b3e0ff;
+  color: #006064;
 }
 
 .promoSection p, .bannerSection p, .activitySection p {
   font-size: 1.2rem;
-  color: #b3e0ff;
+  color: #004d40;
+}
+
+.promoGrid, .activitiesGrid, .activityGrid {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
 }
 
 .promoCard, .bannerCard, .activityCard {
-  background-color: #0099ff;
-  border: 1px solid #0000ff;
+  background-color: #ffffff;
+  border: 1px solid #b2ebf2;
+  border-radius: 10px;
   padding: 10px;
-  cursor: pointer;
   text-align: center;
+  transition: transform 0.3s ease;
 }
 
-.promoCard img, .bannerCard img, .activityCard img {
-  width: 100%;
-  height: auto;
+.promoCard:hover, .bannerCard:hover, .activityCard:hover {
+  transform: scale(1.05);
 }
 
 .seeAllButton {
-  background-color: #1ad1ff;
+  background-color: #00838f;
   color: #ffffff;
   padding: 10px 20px;
   border: none;
+  border-radius: 5px;
   cursor: pointer;
   margin-top: 20px;
   display: block;
@@ -91,12 +101,12 @@
 }
 
 .seeAllButton:hover {
-  background-color: #006680;
+  background-color: #005662;
 }
 
 .footer {
-  background-color: #3399ff;
-  color: #ffffff;
+  background-color: #b2ebf2; 
+  color: #004d40;
   padding: 20px;
   display: flex;
   justify-content: space-between;

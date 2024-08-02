@@ -13,9 +13,20 @@ export default function Home() {
   const [banners, setBanners] = useState([]);
 
   useEffect(() => {
-    getData('activities').then((res) => setActivities(res.data.data));
-    getData('promos').then((res) => setPromos(res.data.data));
-    getData('banners').then((res) => setBanners(res.data.data));
+    const fetchData = async () => {
+      const activitiesData = await getData('activities');
+      const promosData = await getData('promos');
+      const bannersData = await getData('banners');
+
+      console.log('Activities Data:', activitiesData);
+      console.log('Promos Data:', promosData);
+      console.log('Banners Data:', bannersData);
+
+      if (activitiesData) setActivities(activitiesData.data.data);
+      if (promosData) setPromos(promosData.data.data);
+      if (bannersData) setBanners(bannersData.data.data);
+    };
+    fetchData();
   }, []);
 
   const handleBannerClick = (bannerId) => {
@@ -30,17 +41,20 @@ export default function Home() {
     router.push('/activity');
   };
 
+  // const handleActivitiesClick = (id) => {
+  //   router.push(`/activities/${id}`);
+  // };
+
   return (
     <div className={styles.container}>
       <section className={styles.heroSection}>
         <div className={styles.heroText}>
-          <h1>Go Around The World and Explore Everything</h1>
+          <h1>Adventure to Explore Through the Beautiful World</h1>
           <p>
-            Go for a Trip through out breathtaking landscapes
-            and Amazing encounters around you.
+            Embark on an unforgettable adventure through breathtaking landscapes and captivating encounters in the beautiful world around you.
           </p>
           <button onClick={handleActivityClick} className={styles.exploreButton}>
-            Take a Look
+            Explore Now
           </button>
         </div>
         {banners.length > 0 && (
@@ -50,6 +64,7 @@ export default function Home() {
             className={styles.heroImage}
             onClick={() => handleBannerClick(banners[0].id)}
           >
+            {console.log('Banner Image URL:', banners[0].imageUrl)}
             <Image
               src={banners[0].imageUrl}
               alt={banners[0].name}
@@ -61,8 +76,8 @@ export default function Home() {
       </section>
 
       <section className={styles.promoSection}>
-        <h2>Exclusive Promo Just For You!</h2>
-        <p>Don't Miss Out! A Special Offer That You Might Like!</p>
+        <h2>Special Promo For You!</h2>
+        <p>Exclusive Offer Just for You! Don't Miss Out!</p>
         <div className={styles.promoGrid}>
           {promos.slice(0, 4).map((promo) => (
             <motion.div
@@ -70,52 +85,32 @@ export default function Home() {
               className={styles.promoCard}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              onClick={() => router.push(`promo/${promo.id}`)}
+              onClick={() => router.push(`/detail/promo/${promo.id}`)}
             >
-              {promo.imageUrls && promo.imageUrls.length > 0 && (
+              {console.log('Promo Image URL:', promo.imageUrl)}
+              {promo.imageUrl ? (
                 <Image
-                  src={promo.imageUrls[0]}
+                  src={promo.imageUrl}
                   alt={promo.title}
                   width={300}
                   height={200}
+                  objectFit="cover"
                 />
+              ) : (
+                <p>No Image Available</p>
               )}
               <h6>{promo.title}</h6>
             </motion.div>
           ))}
         </div>
         <button onClick={handlePromoClick} className={styles.seeAllButton}>
-          All Promo
+          See All Promo
         </button>
       </section>
 
-      <section className={styles.activitiesSection}>
-        <h2>Discover new Place</h2>
-        <p>Let's Create Your New Passion</p>
-        <div className={styles.activitiesGrid}>
-          {activities.map((activities) => (
-            <motion.div
-              key={activities.id}
-              className={styles.activitiesCard}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              onClick={() => handleactivitiesClick(activities.id)}
-            >
-              <Image
-                src={activities.imageUrl}
-                alt={activities.name}
-                width={300}
-                height={200}
-              />
-              <h6>{activities.name}</h6>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
       <section className={styles.activitySection}>
-        <h2>Explore Everything the World has to offer</h2>
-        <p>Discover a New things while exploring</p>
+        <h2>Explore All Activities</h2>
+        <p>Discover a Plethora of Activities to Explore</p>
         <div className={styles.activityGrid}>
           {activities.map((activity) => (
             <motion.div
@@ -123,15 +118,21 @@ export default function Home() {
               className={styles.activityCard}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              onClick={() => router.push(`activity/${activity.id}`)}
+              onClick={() => router.push(`/detail/activity/${activity.id}`)}
             >
-              <Image
-                src={activity.imageUrl}
-                alt={activity.name}
-                width={300}
-                height={200}
-              />
-              <h6>{activity.name}</h6>
+              {console.log('Activity Image URL:', activity.imageUrls && activity.imageUrls[0])}
+              {activity.imageUrls && activity.imageUrls.length > 0 ? (
+                <Image
+                  src={activity.imageUrls[0]}
+                  alt={activity.name}
+                  width={300}
+                  height={200}
+                  objectFit="cover"
+                />
+              ) : (
+                <p>No Image Available</p>
+              )}
+              <h6>{activity.title}</h6>
               <p>{activity.price}</p>
             </motion.div>
           ))}
@@ -144,8 +145,8 @@ export default function Home() {
       <footer className={styles.footer}>
         <div className={styles.footerContent}>
           <div>
-            <h3>Travel Journal</h3>
-            <p>Aplikasi perjalanan yang memudahkan Anda.</p>
+            <h3>About Us</h3>
+            <p>Travel Journal helps you discover and enjoy limitless adventures.</p>
           </div>
           <div>
             <h3>Contact Us</h3>
