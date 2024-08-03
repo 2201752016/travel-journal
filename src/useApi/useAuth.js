@@ -1,44 +1,54 @@
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { login } from '../redux/slices/authSlice'; // Import the login action
 
 export default function useAuth() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const Auth = async (url, option) => {
     setLoading(true);
+    console.log('Attempting to authenticate...');
+    console.log('URL:', `https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/${url}`);
+    console.log('Options:', option);
+
     try {
       const resp = await axios.post(`https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/${url}`, option, {
         headers: {
           apiKey: '24405e01-fbc1-45a5-9f5a-be13afcd757c',
+          'Content-Type': 'application/json',
         },
       });
-      Cookies.set('token', resp.data.token, { expires: 7 });
-      Cookies.set('email', resp.data.data.email, { expires: 7 });
+      console.log('Response:', resp.data);
 
-      router.push('/dashboarded');
-      setLoading(false);
+      if (resp.data && resp.data.data) {
+        const userData = resp.data.data;
+        const token = resp.data.token; // Assuming the token is returned in this way
+
+        // Dispatch login action to update Redux state
+        dispatch(login(userData));
+
+        // Store token and user data in local storage
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('token', token);
+          localStorage.setItem('user', JSON.stringify(userData));
+        }
+
+        // Redirect to dashboard
+        router.push('/dashboarded');
+      } else {
+        console.error('Unexpected response structure:', resp);
+      }
     } catch (error) {
-      alert('Gagal melakukan autentikasi. Silakan coba lagi.');
       console.error('Error:', error.response?.data || error.message);
+      alert('Failed to authenticate. Please try again.');
+    } finally {
       setLoading(false);
     }
   };
 
-  const userLog = async (url, callback) => {
-    try {
-      const resp = await axios.get(`https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/${url}`, {
-        headers: {
-          apiKey: '24405e01-fbc1-45a5-9f5a-be13afcd757c',
-          Authorization: `Bearer ${Cookies.get('token')}`,
-        },
-      });
-      if (callback) callback(resp.data);
-    } catch (error) {
-      console.error('Error:', error.response?.data || error.message);
-    }
-  };
-
-  return { Auth, userLog, loading };
+  return { Auth, loading };
 }
