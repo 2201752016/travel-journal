@@ -10,11 +10,11 @@ import Input from '@/components/ui/Input';
 const UpdatePromo = () => {
   const { updateItem, loading, error, success } = useUpdate('promo');
   const router = useRouter();
-  const { promoId } = router.query;
+  const { id } = router.query;
   const [promo, setPromo] = useState({
     title: '',
     description: '',
-    imageUrl: '',
+    imageFile: null,
     discount: '',
     terms: '',
     promoCode: '',
@@ -22,10 +22,10 @@ const UpdatePromo = () => {
   });
 
   useEffect(() => {
-    if (promoId) {
+    if (id) {
       const fetchPromo = async () => {
         try {
-          const result = await axios.get(`https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/promo/${promoId}`, {
+          const result = await axios.get(`https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/promo/${id}`, {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
               apiKey: '24405e01-fbc1-45a5-9f5a-be13afcd757c',
@@ -38,21 +38,35 @@ const UpdatePromo = () => {
       };
       fetchPromo();
     }
-  }, [promoId]);
+  }, [id]);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setPromo({ ...promo, [name]: value });
+    const { name, value, files } = e.target;
+    if (name === 'imageFile') {
+      setPromo({ ...promo, imageFile: files[0] });
+    } else {
+      setPromo({ ...promo, [name]: value });
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const formData = new FormData();
+    formData.append('title', promo.title);
+    formData.append('description', promo.description);
+    formData.append('discount', promo.discount);
+    formData.append('terms', promo.terms);
+    formData.append('promoCode', promo.promoCode);
+    formData.append('claimCount', promo.claimCount);
+    if (promo.imageFile) {
+      formData.append('image', promo.imageFile);
+    }
 
-    console.log('Submitting promo update with ID:', promoId);
-    console.log('Promo data:', promo);
+    console.log('Submitting promo update with ID:', id);
+    console.log('Promo data:', formData);
 
     try {
-      const response = await updateItem(promoId, promo);
+      const response = await updateItem(id, formData);
       console.log('Update response:', response);
 
       if (response.status === 200 || response.status === 201) {
@@ -76,25 +90,27 @@ const UpdatePromo = () => {
         {success && <p className={styles.success}>Promo updated successfully!</p>}
         <form onSubmit={handleSubmit} className={styles.form}>
           <Input type="text" name="title" label="Title" value={promo.title || ''} onChange={handleChange} className={styles.input} />
-          
+
           <label htmlFor="description" className={styles.label}>Description:</label>
           <textarea id="description" name="description" value={promo.description || ''} onChange={handleChange} className={styles.textarea} />
-          
-          <Input type="text" name="imageUrl" label="Image URL" value={promo.imageUrl || ''} onChange={handleChange} className={styles.input} />
-          
+
+          <label htmlFor="imageFile" className={styles.label}>Image File:</label> {/* Change label */}
+          <input type="file" id="imageFile" name="imageFile" onChange={handleChange} className={styles.input} />
+
           <Input type="text" name="discount" label="Discount" value={promo.discount || ''} onChange={handleChange} className={styles.input} />
-          
+
           <label htmlFor="terms" className={styles.label}>Terms:</label>
           <textarea id="terms" name="terms" value={promo.terms || ''} onChange={handleChange} className={styles.textarea} />
-          
+
           <Input type="text" name="promoCode" label="Promo Code" value={promo.promoCode || ''} onChange={handleChange} className={styles.input} />
-          
+
           <Input type="text" name="claimCount" label="Claim Count" value={promo.claimCount || ''} onChange={handleChange} className={styles.input} />
+
+          <Button type="submit" className={styles.button} disabled={loading}>Update Promo</Button>
+          <Button type="button" onClick={() => router.back()} className={`${styles.button} ${styles.buttonCancel}`}>Cancel</Button>
         </form>
       </CardContent>
       <CardFooter>
-        <Button type="submit" className={styles.button} disabled={loading}>Update Promo</Button>
-        <Button type="button" onClick={() => router.back()} className={`${styles.button} ${styles.buttonCancel}`}>Cancel</Button>
       </CardFooter>
     </Card>
   );

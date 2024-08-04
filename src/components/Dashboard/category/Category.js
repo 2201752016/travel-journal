@@ -1,4 +1,3 @@
-// Category.js
 "use client";
 import Layout from "@components/Layout";
 import useDelete from "@/useApi/useDelete";
@@ -19,14 +18,19 @@ export default function Category() {
 
   const handleDelete = async (id) => {
     try {
-      const resp = await deleteData(`delete-category/${id}`);
-      if (resp.status === 200) {
-        setCategory(categories.filter((catego) => catego.id !== id));
-      }
+        const resp = await deleteData('delete-category', id); // Adjust endpoint here
+        if (resp && resp.status === 200) {
+            setCategory(categories.filter((catego) => catego.id !== id));
+            console.log('Category deleted successfully!');
+        } else {
+            console.error('Delete failed:', resp ? resp.data : 'No response data');
+        }
     } catch (error) {
-      console.log(error);
+        console.error('Error deleting category:', error);
     }
   };
+
+
 
   return (
     <Layout>

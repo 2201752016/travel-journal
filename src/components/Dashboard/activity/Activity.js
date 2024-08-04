@@ -8,7 +8,7 @@ import styles from "@/styles/Activity.module.css";
 
 export default function Activity() {
   const [activities, setActivities] = useState([]);
-  const { deleteData } = useDelete();
+  const { deleteData } = useDelete(); 
   const { getData } = useGetData();
   const route = useRouter();
 
@@ -18,14 +18,18 @@ export default function Activity() {
 
   const handleDelete = async (id) => {
     try {
-      const resp = await deleteData(`delete-activity/${id}`);
-      if (resp.status === 200) {
-        setActivities(activities.filter((activity) => activity.id !== id));
-      }
+        const resp = await deleteData('delete-activity', id); // Adjust endpoint here
+        if (resp && resp.status === 200) {
+            setActivities(activities.filter((activity) => activity.id !== id));
+            console.log('Activity deleted successfully!');
+        } else {
+            console.error('Delete failed:', resp ? resp.data : 'No response data');
+        }
     } catch (error) {
-      console.log(error);
+        console.error('Error deleting activity:', error);
     }
   };
+
 
   return (
     <Layout>

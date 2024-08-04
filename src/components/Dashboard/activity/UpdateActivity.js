@@ -5,7 +5,7 @@ import styles from '../../../styles/UpdateForm.module.css';
 import useUpdate from "@/useApi/useUpdate";
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
 import Button from '@/components/ui/Button';
-import Input from '@/components/ui/Input';
+import Input from '@/components/ui/Input'; 
 
 const UpdateActivity = () => {
     const { updateItem, loading, error, success } = useUpdate('activity');
@@ -151,11 +151,12 @@ const UpdateActivity = () => {
 
                     <label htmlFor="images" className={styles.label}>Image Files</label>
                     <input type="file" id="images" name="images" multiple onChange={handleChange} className={styles.input} />
+
+                    <Button type="submit" className={styles.button} disabled={loading}>Update Activity</Button>
+                    <Button type="button" onClick={() => router.back()} className={`${styles.button} ${styles.buttonCancel}`}>Cancel</Button>
                 </form>
             </CardContent>
             <CardFooter>
-                <Button type="submit" className={styles.button} disabled={loading}>Update Activity</Button>
-                <Button type="button" onClick={() => router.back()} className={`${styles.button} ${styles.buttonCancel}`}>Cancel</Button>
             </CardFooter>
         </Card>
     );

@@ -1,4 +1,3 @@
-// Promo.js
 "use client";
 import Layout from "@components/Layout";
 import useDelete from "@/useApi/useDelete";
@@ -19,14 +18,19 @@ export default function Promo() {
 
   const handleDelete = async (id) => {
     try {
-      const resp = await deleteData(`delete-promo/${id}`);
-      if (resp.status === 200) {
-        setPromo(promo.filter((promon) => promon.id !== id));
-      }
+        const resp = await deleteData('delete-promo', id); // Adjust endpoint here
+        if (resp && resp.status === 200) {
+            setPromo(promo.filter((promon) => promon.id !== id));
+            console.log('Promo deleted successfully!');
+        } else {
+            console.error('Delete failed:', resp ? resp.data : 'No response data');
+        }
     } catch (error) {
-      console.log(error);
+        console.error('Error deleting promo:', error);
     }
   };
+
+
 
   return (
     <Layout>

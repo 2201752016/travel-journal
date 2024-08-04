@@ -126,14 +126,16 @@ const UpdateCategory = () => {
 
                     <label htmlFor="image" className={styles.label}>Image File</label>
                     <input type="file" id="image" name="image" onChange={handleChange} className={styles.input} />
+
+                    <Button type="submit" className={styles.button} disabled={loading}>Update Category</Button>
+                    <Button type="button" onClick={() => router.back()} className={`${styles.button} ${styles.buttonCancel}`}>Cancel</Button>
                 </form>
             </CardContent>
             <CardFooter>
-                <Button type="submit" className={styles.button} disabled={loading}>Update Category</Button>
-                <Button type="button" onClick={() => router.back()} className={`${styles.button} ${styles.buttonCancel}`}>Cancel</Button>
             </CardFooter>
         </Card>
     );
 };
 
 export default UpdateCategory;
+

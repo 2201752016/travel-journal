@@ -8,7 +8,7 @@ import styles from "@/styles/Banner.module.css";
 export default function Banner() {
   const [bannerList, setBannerList] = useState([]);
   const { getData } = useGetData();
-  const { deleteItem } = useDelete("delete-banner");
+  const { deleteData } = useDelete();
   const route = useRouter();
 
   useEffect(() => {
@@ -19,14 +19,19 @@ export default function Banner() {
 
   const handleDelete = async (id) => {
     try {
-      const resp = await deleteItem(id);
-      if (resp.status === 200) {
-        setBannerList(bannerList.filter((banner) => banner.id !== id));
-      }
+        const resp = await deleteData('delete-banner', id); // Adjust endpoint here
+        if (resp && resp.status === 200) {
+            setBannerList(bannerList.filter((banner) => banner.id !== id));
+            console.log('Banner deleted successfully!');
+        } else {
+            console.error('Delete failed:', resp ? resp.data : 'No response data');
+        }
     } catch (error) {
-      console.log(error);
+        console.error('Error deleting banner:', error);
     }
   };
+
+
 
   return (
     <div className={styles.bannerContainer}>
