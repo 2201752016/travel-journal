@@ -2,10 +2,13 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import styles from '../../../styles/UpdateForm.module.css';
-import useCreate from "@/useApi/useCreate";
+import useUpdate from "@/useApi/useUpdate";
+import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
+import Button from '@/components/ui/Button';
+import Input from '@/components/ui/Input'; 
 
 const UpdateBanner = () => {
-    const { postCreate } = useCreate();
+    const { updateItem, loading, error, success } = useUpdate('banner');
     const router = useRouter();
     const { id } = router.query;
     const [banner, setBanner] = useState({
@@ -14,31 +17,27 @@ const UpdateBanner = () => {
     });
 
     useEffect(() => {
-        const fetchBanner = async () => {
-            try {
-                const result = await axios.get(`https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/banner/${id}`, {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("token")}`,
-                        apiKey: '24405e01-fbc1-45a5-9f5a-be13afcd757c',
-                    },
-                });
-                setBanner({ title: result.data.data.title });
-            } catch (error) {
-                console.error('Error fetching banner:', error);
-            }
-        };
         if (id) {
+            const fetchBanner = async () => {
+                try {
+                    const result = await axios.get(`https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/banner/${id}`, {
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem("token")}`,
+                            apiKey: '24405e01-fbc1-45a5-9f5a-be13afcd757c',
+                        },
+                    });
+                    setBanner({ title: result.data.data.title });
+                } catch (error) {
+                    console.error('Error fetching banner:', error);
+                }
+            };
             fetchBanner();
         }
     }, [id]);
 
     const handleChange = (e) => {
         const { name, value, files } = e.target;
-        if (name === 'image') {
-            setBanner({ ...banner, [name]: files[0] });
-        } else {
-            setBanner({ ...banner, [name]: value });
-        }
+        setBanner({ ...banner, [name]: files ? files[0] : value });
     };
 
     const handleSubmit = async (e) => {
@@ -49,28 +48,43 @@ const UpdateBanner = () => {
             formData.append('image', banner.image);
         }
 
+        console.log('Submitting banner update with ID:', id);
+        console.log('Banner data:', formData);
+
         try {
-            await postCreate('create-banner', formData);
-            router.push('/dashboarded/banner');
+            const response = await updateItem(id, formData);
+            console.log('Update response:', response);
+
+            if (response && (response.status === 200 || response.status === 201)) {
+                console.log('Banner updated successfully!');
+                router.push('/dashboarded/banner');
+            } else {
+                console.error('Update failed:', response.data);
+            }
         } catch (error) {
             console.error('Error updating banner:', error);
         }
     };
 
     return (
-        <div className={styles.formContainer}>
-            <h1>Update Banner</h1>
-            <form onSubmit={handleSubmit} className={styles.form}>
-                <label htmlFor="title" className={styles.label}>Title</label>
-                <input type="text" id="title" name="title" value={banner.title || ''} onChange={handleChange} required className={styles.input} />
+        <Card className={styles.formContainer}>
+            <CardHeader>
+                <CardTitle>Update Banner</CardTitle>
+            </CardHeader>
+            <CardContent>
+                {error && <p className={styles.error}>{error.message}</p>}
+                {success && <p className={styles.success}>Banner updated successfully!</p>}
+                <form onSubmit={handleSubmit} className={styles.form}>
+                    <Input type="text" name="title" label="Title" value={banner.title || ''} onChange={handleChange} required className={styles.input} />
 
-                <label htmlFor="image" className={styles.label}>Image File</label>
-                <input type="file" id="image" name="image" onChange={handleChange} className={styles.input} />
+                    <label htmlFor="image" className={styles.label}>Image File</label>
+                    <input type="file" id="image" name="image" onChange={handleChange} className={styles.input} />
 
-                <button type="submit" className={styles.button}>Update Banner</button>
-                <button type="button" onClick={() => router.back()} className={`${styles.button} ${styles.buttonCancel}`}>Cancel</button>
-            </form>
-        </div>
+                    <Button type="submit" className={styles.button} disabled={loading}>Update Banner</Button>
+                    <Button type="button" onClick={() => router.back()} className={`${styles.button} ${styles.buttonCancel}`}>Cancel</Button>
+                </form>
+            </CardContent>
+        </Card>
     );
 };
 

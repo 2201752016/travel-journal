@@ -1,4 +1,3 @@
-// Activity.js
 "use client";
 import Layout from "@components/Layout";
 import useDelete from "@/useApi/useDelete";

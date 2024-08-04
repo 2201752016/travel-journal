@@ -15,33 +15,33 @@ export default function userList(){
     }, [])
 
     return(
-        <div class="container mx-auto my-8">
-        <div class="text-center">
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
+        <div className="container mx-auto my-8">
+        <div className="text-center">
+            <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50">
                     <tr>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Image</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Phone</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Edit</th>
+                        <th scope="col" className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Image</th>
+                        <th scope="col" className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Name</th>
+                        <th scope="col" className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Role</th>
+                        <th scope="col" className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Email</th>
+                        <th scope="col" className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Phone</th>
+                        <th scope="col" className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Edit</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
+                <tbody className="bg-white divide-y divide-gray-200">
                     {user.length > 0 && (
                         user.map((userData) => (
                             <tr key={userData.id}>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <img src={userData.profilePictureUrl} alt={userData.name} class="h-12 w-12 rounded-full"/>
+                                <td className="px-6 py-4 whitespace-nowrap">
+                                    <img src={userData.profilePictureUrl} alt={userData.name} className="w-12 h-12 rounded-full"/>
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{userData.name}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{userData.role}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{userData.email}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{userData.phoneNumber}</td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="flex items-center justify-center">
-                                        <Button class="px-4 py-2 bg-green-500 text-white text-xs font-bold uppercase rounded hover:bg-green-700" onClick={()=>route.push(`/dashboarded/user/${userData.id}`)}>Update</Button>
+                                <td className="px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap">{userData.name}</td>
+                                <td className="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">{userData.role}</td>
+                                <td className="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">{userData.email}</td>
+                                <td className="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">{userData.phoneNumber}</td>
+                                <td className="px-6 py-4 whitespace-nowrap">
+                                    <div className="flex items-center justify-center">
+                                        <Button className="px-4 py-2 text-xs font-bold text-white uppercase bg-green-500 rounded hover:bg-green-700" onClick={()=>route.push(`/dashboarded/user/${userData.id}`)}>Update</Button>
                                     </div>
                                 </td>
                             </tr>

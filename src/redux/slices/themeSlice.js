@@ -10,6 +10,11 @@
 //   reducers: {
 //     toggleDarkMode: (state) => {
 //       state.darkMode = !state.darkMode;
+//       if (state.darkMode) {
+//         document.documentElement.classList.add('dark-mode');
+//       } else {
+//         document.documentElement.classList.remove('dark-mode');
+//       }
 //     },
 //   },
 // });

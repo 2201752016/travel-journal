@@ -5,7 +5,6 @@ import { useRouter } from 'next/router';
 import { useSelector, useDispatch } from 'react-redux';
 import styles from '../styles/Navbar.module.css';
 import { logout, setUser } from '../redux/slices/authSlice';
-import { toggleDarkMode } from '../redux/slices/themeSlice';
 import useAuth from '../useApi/useAuth';
 
 const Navbar = () => {
@@ -13,19 +12,11 @@ const Navbar = () => {
   const router = useRouter();
   const [navStyle, setNavStyle] = useState('');
   const user = useSelector((state) => state.auth.user);
-  // const darkMode = useSelector((state) => state.theme.darkMode);
   const dispatch = useDispatch();
   const { pathname } = router;
 
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    if (localStorage.getItem('token')) {
-      getUserLogged();
-    }
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
+  console.log('User:', user);
+
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -43,25 +34,6 @@ const Navbar = () => {
       setNavStyle('show');
     }
   };
-
-  const getUserLogged = () => {
-    if (localStorage.getItem('token')) {
-      userLog('user', (res) => {
-        if (res.code === "200" && res.status === "OK") {
-          localStorage.setItem('user', JSON.stringify(res.data));
-          dispatch(setUser(res.data));
-        }
-      });
-    }
-  };
-
-  useEffect(() => {
-    console.log('Current user from Redux:', user);
-  }, [user]);
-
-  // const handleThemeToggle = () => {
-  //   dispatch(toggleDarkMode());
-  // };
 
   return (
     <nav className={`${styles.navbar} ${navStyle}`}>
@@ -91,9 +63,6 @@ const Navbar = () => {
           )}
         </div>
         <div className={styles.authLinks}>
-          {/* <button onClick={handleThemeToggle} className={styles.themeToggle}>
-            {darkMode ? 'Light Mode' : 'Dark Mode'}
-          </button> */}
           {user ? (
             <div className={styles.profileDropdown}>
               <div className={styles.profileLink}>
