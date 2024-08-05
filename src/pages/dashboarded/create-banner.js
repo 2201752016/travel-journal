@@ -1,4 +1,4 @@
-import CreateBanner from '../../components/Dashboard/banner/CreateBanner';
+import CreateBanner from '../dashboarded/banner/CreateBanner';
 
 const CreateBannerPage = () => {
   return <CreateBanner />;

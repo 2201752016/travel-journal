@@ -1,4 +1,4 @@
-import CreateActivity from '../../components/Dashboard/activity/CreateActivity';
+import CreateActivity from '../dashboarded/activity/CreateActivity';
 
 const CreateActivityPage = () => {
   return <CreateActivity />;

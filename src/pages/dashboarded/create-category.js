@@ -1,4 +1,4 @@
-import CreateCategory from '../../components/Dashboard/category/CreateCategory';
+import CreateCategory from '../dashboarded/category/CreateCategory';
 
 const CreateCategoryPage = () => {
   return <CreateCategory />;

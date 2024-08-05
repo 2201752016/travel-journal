@@ -1,4 +1,4 @@
-import CreatePromo from '../../components/Dashboard/promo/CreatePromo';
+import CreatePromo from '../dashboarded/promo/CreatePromo';
 
 const CreatePromoPage = () => {
   return <CreatePromo />;
