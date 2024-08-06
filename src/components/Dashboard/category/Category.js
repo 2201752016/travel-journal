@@ -18,43 +18,43 @@ export default function Category() {
 
   const handleDelete = async (id) => {
     try {
-        const resp = await deleteData('delete-category', id); // Adjust endpoint here
-        if (resp && resp.status === 200) {
-            setCategory(categories.filter((catego) => catego.id !== id));
-            console.log('Category deleted successfully!');
-        } else {
-            console.error('Delete failed:', resp ? resp.data : 'No response data');
-        }
+      const resp = await deleteData('delete-category', id);
+      if (resp && resp.status === 200) {
+        setCategory(categories.filter((catego) => catego.id !== id));
+        console.log('Category deleted successfully!');
+      } else {
+        console.error('Delete failed:', resp ? resp.data : 'No response data');
+      }
     } catch (error) {
-        console.error('Error deleting category:', error);
+      console.error('Error deleting category:', error);
     }
   };
-
-
 
   return (
     <Layout>
       <div className={styles.categoryContainer}>
         <button className={styles.createButton} onClick={() => route.push("/dashboarded/create-category")}>
-          Add
+          Add Category
         </button>
-        {categories.length > 0 &&
-          categories.map((catego) => (
-            <div key={catego.id} className={styles.card}>
-              <div className={styles.cardHeader}>
-                <img src={catego.imageUrl} alt={catego.name} className={styles.cardImage} />
+        <div className={styles.cardGrid}>
+          {categories.length > 0 &&
+            categories.map((catego) => (
+              <div key={catego.id} className={styles.card}>
+                <div className={styles.cardHeader}>
+                  <img src={catego.imageUrl} alt={catego.name} className={styles.cardImage} />
+                </div>
+                <div className={styles.cardContent}>
+                  <h2 className={styles.cardTitle}>{catego.name}</h2>
+                  <p className={styles.cardDates}>Created At: {catego.createdAt}</p>
+                  <p className={styles.cardDates}>Last Update: {catego.updatedAt}</p>
+                </div>
+                <div className={styles.cardActions}>
+                  <button className={styles.editButton} onClick={() => route.push(`/dashboarded/category/${catego.id}`)}>Update</button>
+                  <button className={styles.deleteButton} onClick={() => handleDelete(catego.id)}>Delete</button>
+                </div>
               </div>
-              <div className={styles.cardContent}>
-                <h2 className={styles.cardTitle}>{catego.name}</h2>
-                <p className={styles.cardDates}>Created At: {catego.createdAt}</p>
-                <p className={styles.cardDates}>Last Update: {catego.updatedAt}</p>
-              </div>
-              <div className={styles.cardActions}>
-                <button className={styles.editButton} onClick={() => route.push(`/dashboarded/category/${catego.id}`)}>Update</button>
-                <button className={styles.deleteButton} onClick={() => handleDelete(catego.id)}>Delete</button>
-              </div>
-            </div>
-          ))}
+            ))}
+        </div>
       </div>
     </Layout>
   );

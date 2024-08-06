@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import useGetData from "@/useApi/useGetData";
 import useDelete from "@/useApi/useDelete";
 import styles from "@/styles/Banner.module.css";
+import Button from "@components/ui/Button";
 
 export default function Banner() {
   const [bannerList, setBannerList] = useState([]);
@@ -19,19 +20,17 @@ export default function Banner() {
 
   const handleDelete = async (id) => {
     try {
-        const resp = await deleteData('delete-banner', id); // Adjust endpoint here
-        if (resp && resp.status === 200) {
-            setBannerList(bannerList.filter((banner) => banner.id !== id));
-            console.log('Banner deleted successfully!');
-        } else {
-            console.error('Delete failed:', resp ? resp.data : 'No response data');
-        }
+      const resp = await deleteData('delete-banner', id);
+      if (resp && resp.status === 200) {
+        setBannerList(bannerList.filter((banner) => banner.id !== id));
+        console.log('Banner deleted successfully!');
+      } else {
+        console.error('Delete failed:', resp ? resp.data : 'No response data');
+      }
     } catch (error) {
-        console.error('Error deleting banner:', error);
+      console.error('Error deleting banner:', error);
     }
   };
-
-
 
   return (
     <div className={styles.bannerContainer}>
@@ -51,8 +50,8 @@ export default function Banner() {
                 <p>Last Update: {bannered.updatedAt}</p>
               </div>
               <div className={styles.cardActions}>
-                <button className={styles.editButton} onClick={() => route.push(`/dashboarded/banner/${bannered.id}`)}>Update</button>
-                <button className={styles.deleteButton} onClick={() => handleDelete(bannered.id)}>Delete</button>
+                <Button className={styles.editButton} onClick={() => route.push(`/dashboarded/banner/${bannered.id}`)}>Update</Button>
+                <Button className={styles.deleteButton} onClick={() => handleDelete(bannered.id)}>Delete</Button>
               </div>
             </div>
           ))

@@ -37,8 +37,6 @@ export default function updatePromo(){
 
     const handleUpload = async (e) => {
         e.preventDefault();
-        const formData = new FormData(e.target);
-        
         const promoData ={
             title:e.target.title.value,
             description:e.target.description.value,
@@ -65,13 +63,13 @@ export default function updatePromo(){
                 <form  onSubmit={handleUpload} style={{width:"400px"}}>
                     <p>{promp}</p>
                     <img src={promoImage} alt="image-upload" style={{width:"200px", height:"200px"}}/>
-                        <Input type="text" placeholder="Enter title promo " name="title"/>
-                        <Input type="text" as="textarea" rows={3} placeholder="Enter description promo " name="description"/>
-                        <Input type="file" placeholder="Enter image file" name="image" onChange={handleChange}/>
-                        <Input type="text" placeholder="Enter term promo " name="term"/>
-                        <Input type="text" placeholder="Enter code promo " name="code"/>
-                        <Input type="number" placeholder="Enter discount promo " name="discount"/>
-                        <Input type="number" placeholder="Enter claim promo " name="claim"/>
+                        <Input type="text" placeholder="Enter title promo " name="title" defaultValue={update?.title}/>
+                        <Input type="text" as="textarea" rows={3} placeholder="Enter description promo " name="description" defaultValue={update?.description}/>
+                        <Input type='file' name='image' id='image' onChange={handleChange} defaultValue={update?.imageUrl}/>
+                        <Input type="text" placeholder="Enter term promo " name="term" defaultValue={update?.term}/>
+                        <Input type="text" placeholder="Enter code promo " name="code" defaultValue={update?.code}/>
+                        <Input type="number" placeholder="Enter discount promo " name="discount" defaultValue={update?.discount}/>
+                        <Input type="number" placeholder="Enter claim promo " name="claim" defaultValue={update?.claim}/>
                     <Button variant="primary" type="submit" className="w-100">
                         Submit
                     </Button>

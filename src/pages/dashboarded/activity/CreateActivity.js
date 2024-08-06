@@ -1,8 +1,11 @@
+// CreateActivity.js
 import { useState, useEffect } from 'react';
 import useCreate from '../../../useApi/useCreate';
 import axios from 'axios';
 import styles from '../../../styles/CreateForm.module.css';
 import { useRouter } from 'next/router';
+import Button from '@/components/ui/Button';
+import Input from '@/components/ui/Input';
 
 const CreateActivity = () => {
   const [activityImage, setActivityImage] = useState(null);
@@ -79,11 +82,11 @@ const CreateActivity = () => {
 
   return (
     <div className={styles.formContainer}>
-      <h1>Create Activity</h1>
+      <h1 className={styles.heading}>Create Activity</h1>
       <p className={styles.promp}>{promp}</p>
       <form onSubmit={handleUpload} className={styles.form}>
         <label htmlFor="title" className={styles.label}>Title</label>
-        <input type="text" id="title" name='title' required className={styles.input} />
+        <Input type="text" id="title" name='title' required className={styles.input} />
 
         <label htmlFor="category" className={styles.label}>Category</label>
         <select id="category" name='category' required className={styles.select}>
@@ -97,38 +100,38 @@ const CreateActivity = () => {
         <textarea id="description" name="description" required className={styles.textarea} />
 
         <label htmlFor="price" className={styles.label}>Price</label>
-        <input type="number" id="price" name='price' required className={styles.input} />
+        <Input type="number" id="price" name='price' required className={styles.input} />
 
         <label htmlFor="priceDiscount" className={styles.label}>Price Discount</label>
-        <input type="number" id="priceDiscount" name='priceDiscount' required className={styles.input} />
+        <Input type="number" id="priceDiscount" name='priceDiscount' required className={styles.input} />
 
         <label htmlFor="rating" className={styles.label}>Rating</label>
-        <input type="number" id="rating" name='rating' required className={styles.input} />
+        <Input type="number" id="rating" name='rating' required className={styles.input} />
 
         <label htmlFor="totalReview" className={styles.label}>Total Review</label>
-        <input type="number" id="totalReview" name='totalReview' required className={styles.input} />
+        <Input type="number" id="totalReview" name='totalReview' required className={styles.input} />
 
         <label htmlFor="facilities" className={styles.label}>Facilities</label>
-        <input type="text" id="facilities" name='facilities' required className={styles.input} />
+        <Input type="text" id="facilities" name='facilities' required className={styles.input} />
 
         <label htmlFor="address" className={styles.label}>Address</label>
-        <input type="text" id="address" name='address' required className={styles.input} />
+        <Input type="text" id="address" name='address' required className={styles.input} />
 
         <label htmlFor="city" className={styles.label}>City</label>
-        <input type="text" id="city" name='city' required className={styles.input} />
+        <Input type="text" id="city" name='city' required className={styles.input} />
 
         <label htmlFor="province" className={styles.label}>Province</label>
-        <input type="text" id="province" name='province' required className={styles.input} />
+        <Input type="text" id="province" name='province' required className={styles.input} />
 
         <label htmlFor="locationMaps" className={styles.label}>Location Maps</label>
-        <input type="text" id="locationMaps" name='locationMaps' required className={styles.input} />
+        <Input type="text" id="locationMaps" name='locationMaps' required className={styles.input} />
 
         <label htmlFor="image" className={styles.label}>Image Files</label>
-        <input type="file" id="image" name='image' multiple onChange={handleChange} required className={styles.input} />
+        <Input type="file" id="image" name='image' multiple onChange={handleChange} required className={styles.input} />
 
         <div className={styles.buttonContainer}>
-          <button type="submit" className={styles.button}>Create Activity</button>
-          <button type="button" onClick={() => router.back()} className={`${styles.button} ${styles.buttonCancel}`}>Cancel</button>
+          <Button type="submit" className={styles.button}>Create Activity</Button>
+          <Button type="button" onClick={() => router.back()} className={`${styles.button} ${styles.buttonCancel}`}>Cancel</Button>
         </div>
       </form>
     </div>

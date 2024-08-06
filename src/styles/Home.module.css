@@ -10,15 +10,17 @@
 
 .heroSection {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; /* Space between text and carousel */
   align-items: center;
   padding: 50px;
   background-color: #f5fafd;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-.heroText {
+.heroTextBox {
   flex: 1;
-  padding-right: 20px;
+  max-width: 500px;
 }
 
 .heroText h1 {
@@ -46,11 +48,26 @@
   background-color: #005662;
 }
 
+.heroCarouselBox {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  width: 100%;
+  overflow: hidden; /* Prevent overflow */
+}
+
 .heroImage {
   flex: 1;
-  position: relative;
-  height: 300px;
-  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 500px; /* Set a maximum width */
 }
 
 .promoSection, .bannerSection, .activitySection {
@@ -61,26 +78,48 @@
 .promoSection h2, .bannerSection h2, .activitySection h2 {
   font-size: 2rem;
   color: #006064;
+  text-align: center; /* Center align headers */
 }
 
 .promoSection p, .bannerSection p, .activitySection p {
   font-size: 1.2rem;
   color: #004d40;
+  text-align: center; /* Center align descriptions */
 }
 
 .promoGrid, .activitiesGrid, .activityGrid {
   display: flex;
   gap: 20px;
   overflow-x: auto;
+  justify-content: center; /* Center items within grid */
 }
 
-.promoCard, .bannerCard, .activityCard {
+.promoCard, .bannerCard{
   background-color: #ffffff;
   border: 1px solid #b2ebf2;
   border-radius: 10px;
   padding: 10px;
   text-align: center;
   transition: transform 0.3s ease;
+  width: 300px;
+  height: 250px;
+  flex-shrink: 0;
+}
+
+.activityCard {
+  background-color: #ffffff;
+  border: 1px solid #b2ebf2;
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+  transition: transform 0.3s ease;
+  width: 300px;
+  min-height: 300px; /* Use min-height instead of height */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box; /* Ensure padding and border are included in the total width and height */
+  overflow: hidden;
 }
 
 .promoCard:hover, .bannerCard:hover, .activityCard:hover {

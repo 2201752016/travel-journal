@@ -35,9 +35,9 @@ export default function UpdateUser(){
                     <option value="admin">admin</option>
                     </select>
                 </div>
-                <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded">
+                <Button type="submit" class="w-full bg-blue-500 text-white py-2 rounded">
                     Submit
-                </button>
+                </Button>
                 </form>
             </div>
         </div>

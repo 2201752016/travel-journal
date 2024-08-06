@@ -1,22 +1,21 @@
-import useCreate from "@/useApi/useCreate";
 import useGetData from "@/useApi/useGetData";
+import useCreate from "@/useApi/useCreate"
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 
-
-export default function updateCategory(){
+export default function updateBanner(){
     const {getData} = useGetData();
     const [update, setUpdate] = useState([]);
-    const [categoryImage,setcategoryImage] = useState(null);
+    const [bannerImage,setbannerImage] = useState("");
     const [promp, setPromp] = useState('');
     const {postCreate} = useCreate();
-    const route = useRouter()
+    const route = useRouter();
 
-    useEffect(()=>{
-        getData(`category/${route.query.id}`).then((resp)=>setUpdate(resp?.data?.data));
-    })
+    useEffect(() => {
+        getData(`banner/${route.query.id}`).then((resp)=>setUpdate(resp?.data?.data));
+      }, []);
 
     const handleChange = async (e) => {
         const file = e.target.files[0];
@@ -28,22 +27,22 @@ export default function updateCategory(){
         formData.append('image', file);
         try {
             const res = await postCreate(`upload-image`, formData);
-            setcategoryImage(res.data.url);
+            setbannerImage(res.data.url);
         } catch (err) {
             setPromp(err);
         }
-    console.log(setcategoryImage);
+    console.log(setbannerImage);
     };
 
     const handleUpload = async (e) => {
         e.preventDefault();
-        const categoryData ={
+        const bannerData ={
             name:e.target.name.value,   
-            imageUrl:categoryImage,
+            imageUrl:bannerImage,
         }
-        console.log(categoryData);
+        console.log(bannerData);
         try {
-            const res = await postCreate(`update-category/${route.query.id}`, categoryData);
+            const res = await postCreate(`update-banner/${route.query.id}`, bannerData);
             if (res?.status === 200) {
                 setPromp(res?.data?.message);
             }
@@ -54,13 +53,13 @@ export default function updateCategory(){
 
     return(
         <div>
-            <container className="m-5 d-flex tengah">
+            <container className="d-flex m-5 tengah">
                 <form  onSubmit={handleUpload} style={{width:"400px"}}>
                     <p>{promp}</p>
-                    <img src={categoryImage} alt="image-upload" style={{width:"200px", height:"200px"}}/>
-                        <Input type="text" placeholder="Enter name category" name="name"/>
-                        <Input type="file" placeholder="Enter image file" name="image" onChange={handleChange}/>
-                    <Button variant="primary" type="submit" className="w-100">
+                    <img src={bannerImage} alt="image-upload" style={{width:"200px", height:"200px"}}/>
+                    <Input type='text' id='name' name='name' defaultValue={update?.name}/>
+                    <Input type='file' name='image' id='image' onChange={handleChange} defaultValue={update?.imageUrl}/>
+                    <Button type="submit" className="btn btn-primary w-100">
                         Submit
                     </Button>
                 </form>

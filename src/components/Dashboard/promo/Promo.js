@@ -18,43 +18,43 @@ export default function Promo() {
 
   const handleDelete = async (id) => {
     try {
-        const resp = await deleteData('delete-promo', id); // Adjust endpoint here
-        if (resp && resp.status === 200) {
-            setPromo(promo.filter((promon) => promon.id !== id));
-            console.log('Promo deleted successfully!');
-        } else {
-            console.error('Delete failed:', resp ? resp.data : 'No response data');
-        }
+      const resp = await deleteData('delete-promo', id);
+      if (resp && resp.status === 200) {
+        setPromo(promo.filter((promon) => promon.id !== id));
+        console.log('Promo deleted successfully!');
+      } else {
+        console.error('Delete failed:', resp ? resp.data : 'No response data');
+      }
     } catch (error) {
-        console.error('Error deleting promo:', error);
+      console.error('Error deleting promo:', error);
     }
   };
-
-
 
   return (
     <Layout>
       <div className={styles.promoContainer}>
         <button className={styles.createButton} onClick={() => route.push("/dashboarded/create-promo")}>
-          Add
+          Add Promo
         </button>
-        {promo.length > 0 &&
-          promo.map((promon) => (
-            <div key={promon.id} className={styles.card}>
-              <div className={styles.cardHeader}>
-                <img src={promon.imageUrl} alt={promon.title} className={styles.cardImage} />
+        <div className={styles.cardGrid}>
+          {promo.length > 0 &&
+            promo.map((promon) => (
+              <div key={promon.id} className={styles.card}>
+                <div className={styles.cardHeader}>
+                  <img src={promon.imageUrl} alt={promon.title} className={styles.cardImage} />
+                </div>
+                <div className={styles.cardContent}>
+                  <h2 className={styles.cardTitle}>{promon.title}</h2>
+                  <p className={styles.cardDates}>Created At: {promon.createdAt}</p>
+                  <p className={styles.cardDates}>Last Update: {promon.updatedAt}</p>
+                </div>
+                <div className={styles.cardActions}>
+                  <button className={styles.editButton} onClick={() => route.push(`/dashboarded/promo/${promon.id}`)}>Update</button>
+                  <button className={styles.deleteButton} onClick={() => handleDelete(promon.id)}>Delete</button>
+                </div>
               </div>
-              <div className={styles.cardContent}>
-                <h2 className={styles.cardTitle}>{promon.title}</h2>
-                <p className={styles.cardDates}>Created At: {promon.createdAt}</p>
-                <p className={styles.cardDates}>Last Update: {promon.updatedAt}</p>
-              </div>
-              <div className={styles.cardActions}>
-                <button className={styles.editButton} onClick={() => route.push(`/dashboarded/promo/${promon.id}`)}>Update</button>
-                <button className={styles.deleteButton} onClick={() => handleDelete(promon.id)}>Delete</button>
-              </div>
-            </div>
-          ))}
+            ))}
+        </div>
       </div>
     </Layout>
   );

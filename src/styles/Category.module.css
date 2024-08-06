@@ -1,26 +1,24 @@
-/* Category.module.css */
 .categoryContainer {
+  margin-top: 40px; 
   padding: 20px;
-  margin-top: 80px; /* Adjust this value based on the height of your navbar */
-}
-
-.title {
-  font-size: 1.5rem;
-  margin-bottom: 20px;
+  background: linear-gradient(to bottom, #e0f7fa, #f5fafd);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .createButton {
-  background-color: #00bcd4;
+  background-color: #4caf50;
   color: white;
-  border: none;
-  border-radius: 8px;
   padding: 10px 20px;
+  border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  margin-bottom: 20px;
+  display: inline-block;
 }
 
 .createButton:hover {
-  background-color: #0097a7;
+  background-color: #388e3c;
 }
 
 .cardGrid {
@@ -30,64 +28,67 @@
 }
 
 .card {
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  border: 1px solid #b2ebf2;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  transition: transform 0.2s ease-in-out;
+  transition: transform 0.3s ease;
 }
 
-.card:hover {
-  transform: scale(1.05);
+.cardHeader {
+  height: 150px;
+  overflow: hidden;
 }
 
 .cardImage {
   width: 100%;
-  height: 150px;
+  height: 100%;
   object-fit: cover;
 }
 
 .cardContent {
-  padding: 20px;
+  padding: 15px;
+  text-align: center;
 }
 
-.cardContent h2 {
+.cardTitle {
   font-size: 1.2rem;
-  margin: 0;
-  color: #333;
+  font-weight: bold;
+  color: #006064;
 }
 
-.cardContent p {
-  margin: 5px 0;
+.cardDates {
+  font-size: 0.9rem;
   color: #555;
 }
 
 .cardActions {
-  padding: 10px 20px;
-  background-color: #f8f9fa;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: space-around;
+  padding: 10px;
+  background-color: #f7f7f7;
 }
 
-.editButton, .deleteButton {
+.editButton,
+.deleteButton {
   background-color: #00bcd4;
   color: white;
   border: none;
+  padding: 8px 12px;
   border-radius: 4px;
-  padding: 8px 16px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
-.editButton:hover, .deleteButton:hover {
-  background-color: #00bcd4;
+.editButton:hover {
+  background-color: #008ba3;
 }
 
 .deleteButton {
-  background-color: #00bcd4;
+  background-color: #f44336;
 }
 
 .deleteButton:hover {
-  transform: scale(1.05);
+  background-color: #d32f2f;
 }

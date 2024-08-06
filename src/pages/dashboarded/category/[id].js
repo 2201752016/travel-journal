@@ -1,63 +1,70 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useRouter } from 'next/router';
-import styles from '../../../styles/CreateForm.module.css';
+import useCreate from "@/useApi/useCreate";
+import useGetData from "@/useApi/useGetData";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import Input from "@/components/ui/Input";
+import Button from "@/components/ui/Button";
 
-const UpdateCategory = ({ categoryId }) => {
-  const [name, setName] = useState('');
-  const [imageFile, setImageFile] = useState(null);
-  const router = useRouter();
 
-  useEffect(() => {
-    const fetchCategory = async () => {
-      const result = await axios.get(`https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/category/${categoryId}`, {
-        headers: {
-          apiKey: '24405e01-fbc1-45a5-9f5a-be13afcd757c',
-        },
-      });
-      const category = result.data;
-      setName(category.name);
+export default function updateCategory(){
+    const {getData} = useGetData();
+    const [update, setUpdate] = useState([]);
+    const [categoryImage,setcategoryImage] = useState(null);
+    const [promp, setPromp] = useState('');
+    const {postCreate} = useCreate();
+    const route = useRouter()
+
+    useEffect(()=>{
+        getData(`category/${route.query.id}`).then((resp)=>setUpdate(resp?.data?.data));
+    })
+
+    const handleChange = async (e) => {
+        const file = e.target.files[0];
+        if (!file?.type?.startsWith('image/')) {
+            setPromp('File should be .jpeg, .jpg or .png format');
+            return;
+        }
+        const formData = new FormData();
+        formData.append('image', file);
+        try {
+            const res = await postCreate(`upload-image`, formData);
+            setcategoryImage(res.data.url);
+        } catch (err) {
+            setPromp(err);
+        }
+    console.log(setcategoryImage);
     };
 
-    fetchCategory();
-  }, [categoryId]);
+    const handleUpload = async (e) => {
+        e.preventDefault();
+        const categoryData ={
+            name:e.target.name.value,   
+            imageUrl:categoryImage,
+        }
+        console.log(categoryData);
+        try {
+            const res = await postCreate(`update-category/${route.query.id}`, categoryData);
+            if (res?.status === 200) {
+                setPromp(res?.data?.message);
+            }
+        } catch (err) {
+            setPromp(err?.response?.data?.message);
+        }
+    };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append('name', name);
-    if (imageFile) {
-      formData.append('image', imageFile);
-    }
-
-    try {
-      await axios.put(`https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/update-category/${categoryId}`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          apiKey: '24405e01-fbc1-45a5-9f5a-be13afcd757c',
-        },
-      });
-      router.push('/dashboarded/category');
-    } catch (error) {
-      console.error('Error updating category:', error);
-    }
-  };
-
-  return (
-    <div className={styles.formContainer}>
-      <h1>Update Category</h1>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="name">Category Name</label>
-        <input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} required />
-
-        <label htmlFor="image">Image File</label>
-        <input type="file" id="image" onChange={(e) => setImageFile(e.target.files[0])} />
-
-        <button type="submit">Update Category</button>
-        <button type="button" onClick={() => router.back()}>Cancel</button>
-      </form>
-    </div>
-  );
-};
-
-export default UpdateCategory;
+    return(
+        <div>
+            <container className="m-5 d-flex tengah">
+                <form  onSubmit={handleUpload} style={{width:"400px"}}>
+                    <p>{promp}</p>
+                    <img src={categoryImage} alt="image-upload" style={{width:"200px", height:"200px"}}/>
+                        <Input type='text' id='name' name='name' defaultValue={update?.name}/> 
+                        <Input type='file' name='image' id='image' onChange={handleChange} defaultValue={update?.imageUrl}/>
+                    <Button variant="primary" type="submit" className="w-100">
+                        Submit
+                    </Button>
+                </form>
+            </container>
+        </div>
+    )
+}

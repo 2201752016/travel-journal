@@ -1,0 +1,56 @@
+.pageContainer {
+    background: linear-gradient(to bottom, #e0f7fa, #f5fafd); /* Light blue to white gradient */
+    padding: 20px;
+    padding-top: 100px; /* Ensure this pushes content below the navbar */
+    min-height: 100vh;
+  }
+  
+  /* Remove or modify styles from sectionContainer */
+  .sectionContainer {
+    /* Removed background and box styling to eliminate the box */
+    padding: 20px;
+    /* Optionally remove border-radius, shadow, and background color */
+    /* border-radius: 10px; */
+    /* box-shadow: none; */
+    margin-top: 80px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .card {
+    background-color: #ffffff;
+    border: 1px solid #b2ebf2;
+    border-radius: 10px;
+    text-align: center;
+    transition: transform 0.3s ease;
+    width: 250px;
+    margin: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card img {
+    border-radius: 10px;
+  }
+  
+  .cardTitle {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #006064;
+  }
+  
+  .cardDescription {
+    font-size: 0.9rem;
+    color: #555;
+  }
+  
+  .discountPrices {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .lineThrough {
+    text-decoration: line-through;
+    color: #888;
+  }
+  
