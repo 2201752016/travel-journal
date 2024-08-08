@@ -1,19 +1,25 @@
+// /mnt/data/register.js
+
 import { useState } from 'react';
 import useAuth from '../useApi/useAuth';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { useSelector } from 'react-redux';
+import { useRouter } from 'next/router';
+import { useDispatch } from 'react-redux';
+import { logout } from '../redux/slices/authSlice';
 import styles from '../styles/Form.module.css';
 import Input from '../components/ui/Input';
 import Button from '../components/ui/Button';
 import Dropdown from '../components/ui/Dropdown';
+import axios from 'axios';
 
 const Register = () => {
   const [image, setImage] = useState('');
   const { Auth, loading } = useAuth();
   const [prompt, setPrompt] = useState([]);
   const [role, setRole] = useState('user');
-  // const darkMode = useSelector((state) => state.theme.darkMode);
+  const router = useRouter();
+  const dispatch = useDispatch();
 
   const handleChange = async (e) => {
     const file = e.target.files[0];
@@ -24,14 +30,19 @@ const Register = () => {
     const formData = new FormData();
     formData.append('image', file);
     try {
-      const res = await postCreate('upload-image', formData);
+      const res = await axios.post('https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/upload-image', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          apiKey: '24405e01-fbc1-45a5-9f5a-be13afcd757c'
+        }
+      });
       setImage(res.data.url);
     } catch (err) {
-      setPrompt(err);
+      setPrompt('Failed to upload image');
     }
   };
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     const email = e.target.email.value;
     const name = e.target.name.value;
@@ -45,7 +56,11 @@ const Register = () => {
       return;
     }
 
-    Auth('register', { email, name, password, passwordRepeat, role, profilePictureUrl, phoneNumber });
+    try {
+      await Auth('register', { email, name, password, passwordRepeat, role, profilePictureUrl, phoneNumber });
+    } catch (err) {
+      console.error('Registration error:', err);
+    }
   };
 
   return (

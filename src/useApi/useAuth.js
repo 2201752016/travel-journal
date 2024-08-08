@@ -2,7 +2,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { setUser } from '../redux/slices/authSlice';
+import { setUser, login as loginAction, logout as logoutAction } from '../redux/slices/authSlice';
 
 export default function useAuth(){
     const [loading, setLoading] = useState(false);
@@ -18,10 +18,18 @@ export default function useAuth(){
                     apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
                 },
             });
-            localStorage.setItem('token', resp.data.token);
-            localStorage.setItem('email', resp.data.data.email);
-            dispatch(setUser(resp.data.data));
-            route.push("/dashboarded");
+
+            if (url === 'login') {
+                localStorage.setItem('token', resp.data.token);
+                localStorage.setItem('email', resp.data.data.email);
+                dispatch(loginAction({ user: resp.data.data, token: resp.data.token }));
+                route.push("/dashboarded");
+            } else if (url === 'register') {
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                dispatch(logoutAction());
+                route.push("/login");
+            }
         } catch (error) {
             alert("Gagal melakukan autentikasi. Silakan coba lagi.");
         } finally {

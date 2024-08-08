@@ -1,3 +1,5 @@
+// /mnt/data/Profile.js
+
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
@@ -15,6 +17,10 @@ const Profile = () => {
     }
   }, [isAuthenticated, router]);
 
+  const handleEditProfile = () => {
+    router.push('/dashboarded/edit-profile');
+  };
+
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className={styles.profileContainer}>
       <h1>My Profile</h1>
@@ -24,9 +30,9 @@ const Profile = () => {
             <img src={user.profilePictureUrl || '/default-avatar.png'} alt={user.name} className={styles.profilePicture} />
             <h2>{user.name}</h2>
             <p><strong>Email:</strong> {user.email}</p>
-            <p><strong>Phone:</strong> {user.phone || 'Not provided'}</p>
+            <p><strong>Phone:</strong> {user.phoneNumber || 'Not provided'}</p>
             <p><strong>Role:</strong> {user.role}</p>
-            <button className={styles.editButton}>Edit Profile</button>
+            <button className={styles.editButton} onClick={handleEditProfile}>Edit Profile</button>
           </div>
         </div>
       ) : (
@@ -37,3 +43,4 @@ const Profile = () => {
 };
 
 export default Profile;
+
