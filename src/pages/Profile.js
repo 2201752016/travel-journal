@@ -17,9 +17,9 @@ const Profile = () => {
     }
   }, [isAuthenticated, router]);
 
-  const handleEditProfile = () => {
-    router.push('/dashboarded/edit-profile');
-  };
+  // const handleEditProfile = () => {
+  //   router.push('/dashboarded/edit-profile');
+  // };
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className={styles.profileContainer}>
@@ -32,7 +32,7 @@ const Profile = () => {
             <p><strong>Email:</strong> {user.email}</p>
             <p><strong>Phone:</strong> {user.phoneNumber || 'Not provided'}</p>
             <p><strong>Role:</strong> {user.role}</p>
-            <button className={styles.editButton} onClick={handleEditProfile}>Edit Profile</button>
+            {/* <button className={styles.editButton} onClick={handleEditProfile}>Edit Profile</button> */}
           </div>
         </div>
       ) : (

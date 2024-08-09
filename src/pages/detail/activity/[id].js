@@ -64,7 +64,11 @@ export default function ActivityDetail({ initialDetailData }) {
             <p>Address: {detail.address}</p>
             <p>Province: {detail.province}</p>
             <p>City: {detail.city}</p>
-            <div dangerouslySetInnerHTML={{ __html: detail.location_maps }} />
+            {detail.location_maps && (
+              <div
+                dangerouslySetInnerHTML={{ __html: detail.location_maps }}
+              />
+            )}
             <p>Create at: {detail.createdAt}</p>
             <p>Update at: {detail.updatedAt}</p>
           </div>
